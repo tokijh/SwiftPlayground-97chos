@@ -69,14 +69,46 @@
 		60DCA7AC258B4E94009BD9B4 /* NumberGame */ = {
 			isa = PBXGroup;
 			children = (
-				60DCA7AD258B4E94009BD9B4 /* AppDelegate.swift */,
+				60DCAFFA2590E4F2009BD9B4 /* Resources */,
+				60DCAFF92590E4EE009BD9B4 /* Sources */,
+			);
+			path = NumberGame;
+			sourceTree = "<group>";
+		};
+		60DCAFF92590E4EE009BD9B4 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				60DCAFFB2590E4FD009BD9B4 /* Application */,
+				60DCAFFC2590E505009BD9B4 /* View */,
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
+		60DCAFFA2590E4F2009BD9B4 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
 				60DCA7B6258B4E97009BD9B4 /* Assets.xcassets */,
 				60DCA7BB258B4E97009BD9B4 /* Info.plist */,
 				60DCA7B8258B4E97009BD9B4 /* LaunchScreen.storyboard */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		60DCAFFB2590E4FD009BD9B4 /* Application */ = {
+			isa = PBXGroup;
+			children = (
+				60DCA7AD258B4E94009BD9B4 /* AppDelegate.swift */,
 				60DCA7AF258B4E94009BD9B4 /* SceneDelegate.swift */,
+			);
+			path = Application;
+			sourceTree = "<group>";
+		};
+		60DCAFFC2590E505009BD9B4 /* View */ = {
+			isa = PBXGroup;
+			children = (
 				60DCA7B1258B4E94009BD9B4 /* ViewController.swift */,
 			);
-			path = NumberGame;
+			path = View;
 			sourceTree = "<group>";
 		};
 		C6E1968B3C8833AF47718F6F /* Pods */ = {
@@ -85,7 +117,6 @@
 				A296999119637D2B3535F749 /* Pods-NumberGame.debug.xcconfig */,
 				0BE6DD22B5D21258449E3469 /* Pods-NumberGame.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
