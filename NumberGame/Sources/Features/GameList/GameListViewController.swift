@@ -7,8 +7,6 @@
 
 import UIKit
 
-import SnapKit
-
 final class GameListViewController: UIViewController {
 
   // MARK: UI
