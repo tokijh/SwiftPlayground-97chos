@@ -23,6 +23,7 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
   ) {
     guard let scene = scene as? UIWindowScene else { return }
     let navigationController = UINavigationController(rootViewController: GameListViewController())
+    navigationController.navigationBar.prefersLargeTitles = true
     self.window = UIWindow(frame: UIScreen.main.bounds)
     self.window?.rootViewController = navigationController
     self.window?.windowScene = scene

@@ -40,6 +40,7 @@ final class GameListViewController: UIViewController {
   // MARK: Configuring
 
   private func configureViews() {
+    self.title = "게임 목록"
     self.configureTableView()
     self.layoutViews()
   }
