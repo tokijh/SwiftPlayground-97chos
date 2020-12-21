@@ -21,5 +21,10 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     willConnectTo session: UISceneSession,
     options connectionOptions: UIScene.ConnectionOptions
   ) {
+    guard let scene = scene as? UIWindowScene else { return }
+    window = UIWindow(frame: UIScreen.main.bounds)
+    window?.rootViewController = ViewController()
+    window?.windowScene = scene
+    window?.makeKeyAndVisible()
   }
 }
