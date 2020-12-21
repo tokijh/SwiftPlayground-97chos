@@ -12,7 +12,7 @@ final class GameListViewController: UIViewController {
   // MARK: Constants
 
   private enum Constant {
-    static let games = ["Number Game"]
+    static let games = ["Up & Down"]
   }
 
   private enum ReuseIdentifier {
