@@ -15,6 +15,7 @@ import UIKit
     _ application: UIApplication,
     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
   ) -> Bool {
+    self.configureAppearance()
     return true
   }
 
@@ -27,5 +28,12 @@ import UIKit
       name: "Default Configuration",
       sessionRole: connectingSceneSession.role
     )
+  }
+
+
+  // MARK: Configuring
+
+  private func configureAppearance() {
+    UIView.appearance().backgroundColor = .systemBackground
   }
 }
