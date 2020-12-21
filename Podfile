@@ -6,5 +6,6 @@ target 'NumberGame' do
   use_frameworks!
 
   # Pods for NumberGame
+  pod 'SnapKit'
 
 end
