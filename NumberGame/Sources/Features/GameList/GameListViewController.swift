@@ -9,6 +9,17 @@ import UIKit
 
 final class GameListViewController: UIViewController {
 
+  // MARK: Constants
+
+  private enum Constant {
+    static let games = ["Number Game"]
+  }
+
+  private enum ReuseIdentifier {
+    static let gameCell = "gameCell"
+  }
+
+
   // MARK: UI
 
   private let tableView = UITableView()
@@ -29,7 +40,13 @@ final class GameListViewController: UIViewController {
   // MARK: Configuring
 
   private func configureViews() {
+    self.configureTableView()
     self.layoutViews()
+  }
+
+  private func configureTableView() {
+    self.tableView.register(GameCell.self, forCellReuseIdentifier: ReuseIdentifier.gameCell)
+    self.tableView.dataSource = self
   }
 
 
@@ -41,5 +58,21 @@ final class GameListViewController: UIViewController {
     self.tableView.snp.makeConstraints {
       $0.edges.equalToSuperview()
     }
+  }
+}
+
+extension GameListViewController: UITableViewDataSource {
+  func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    return Constant.games.count
+  }
+
+  func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    guard let gameCell = tableView.dequeueReusableCell(
+      withIdentifier: ReuseIdentifier.gameCell,
+      for: indexPath
+    ) as? GameCell else { return UITableViewCell() }
+    let gameTitle = Constant.games[indexPath.item]
+    gameCell.set(title: gameTitle)
+    return gameCell
   }
 }
