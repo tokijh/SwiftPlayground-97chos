@@ -13,7 +13,7 @@ final class GameListViewController: UIViewController {
 
   // MARK: UI
 
-  private let collectionView = UICollectionView()
+  private let tableView = UITableView()
 
 
   // MARK: Initializing
@@ -38,9 +38,9 @@ final class GameListViewController: UIViewController {
   // MARK: Layout
 
   private func layoutViews() {
-    self.view.addSubview(collectionView)
+    self.view.addSubview(tableView)
 
-    self.collectionView.snp.makeConstraints {
+    self.tableView.snp.makeConstraints {
       $0.edges.equalToSuperview()
     }
   }
