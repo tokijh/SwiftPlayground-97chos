@@ -22,9 +22,9 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     options connectionOptions: UIScene.ConnectionOptions
   ) {
     guard let scene = scene as? UIWindowScene else { return }
-    window = UIWindow(frame: UIScreen.main.bounds)
-    window?.rootViewController = GameListViewController()
-    window?.windowScene = scene
-    window?.makeKeyAndVisible()
+    self.window = UIWindow(frame: UIScreen.main.bounds)
+    self.window?.rootViewController = GameListViewController()
+    self.window?.windowScene = scene
+    self.window?.makeKeyAndVisible()
   }
 }
