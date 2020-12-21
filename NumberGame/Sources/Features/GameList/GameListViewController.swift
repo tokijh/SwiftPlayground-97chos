@@ -35,6 +35,7 @@ final class GameListViewController: UIViewController {
 
   private func configureTableView() {
     self.tableView.register(GameCell.self, forCellReuseIdentifier: ReuseIdentifier.gameCell)
+    self.tableView.delegate = self
     self.tableView.dataSource = self
   }
 
@@ -58,6 +59,13 @@ final class GameListViewController: UIViewController {
   }
 }
 
+extension GameListViewController {
+  private func navigateToUpAndDownGame() {
+    let viewController = UpAndDownGameViewController()
+    self.navigationController?.pushViewController(viewController, animated: true)
+  }
+}
+
 extension GameListViewController: UITableViewDataSource {
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     return Constant.games.count
@@ -71,5 +79,16 @@ extension GameListViewController: UITableViewDataSource {
     let gameTitle = Constant.games[indexPath.item]
     gameCell.set(title: gameTitle)
     return gameCell
+  }
+}
+
+extension GameListViewController: UITableViewDelegate {
+  func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    switch indexPath.item {
+    case 0: // Up & Down
+      self.navigateToUpAndDownGame()
+
+    default: break
+    }
   }
 }
