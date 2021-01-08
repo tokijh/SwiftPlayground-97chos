@@ -53,12 +53,17 @@ final class InputNumberViewController: UIViewController {
   private func configure() {
     self.title = "NumberInput"
     self.configureNumberButtons()
+    self.configureDeleteButton()
   }
 
   private func configureNumberButtons() {
     self.numberButtons.forEach { button in
       button.addTarget(self, action: #selector(self.didTapNumberButton(_:)), for: .touchUpInside)
     }
+  }
+
+  private func configureDeleteButton() {
+    self.deleteButton.addTarget(self, action: #selector(self.didTapDeleteButton), for: .touchUpInside)
   }
 
 
@@ -76,6 +81,10 @@ final class InputNumberViewController: UIViewController {
 
   @objc private func didTapNumberButton(_ button: UIButton) {
     self.inputtedText += "\(button.tag)"
+  }
+
+  @objc private func didTapDeleteButton() {
+    self.inputtedText = String(self.inputtedText.dropLast())
   }
 
 
