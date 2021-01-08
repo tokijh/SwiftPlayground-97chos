@@ -47,7 +47,6 @@ final class UpAndDownGameViewController: UIViewController {
   private lazy var inputNumberLabel: UILabel = { // 입력한 숫자
     let label = UILabel()
     label.font = UIFont.preferredFont(forTextStyle: .body)
-    label.text = "X 보다"
     label.textAlignment = .center
     return label
   }()
@@ -55,7 +54,6 @@ final class UpAndDownGameViewController: UIViewController {
     let label = UILabel()
     label.font = UIFont.systemFont(ofSize: 50, weight: .heavy)
     label.textAlignment = .center
-    label.text = "Up 👍"
     return label
   }()
   private lazy var inputCountLabel: UILabel = { // N 번 입력
@@ -63,12 +61,10 @@ final class UpAndDownGameViewController: UIViewController {
     label.font = UIFont.preferredFont(forTextStyle: .body)
     label.textColor = .systemGray
     label.textAlignment = .center
-    label.text = "N번 입력했습니다."
     return label
   }()
-  private lazy var button: UIButton = { // 입력하기, 다시시작을 할 수 있는 버튼
+  private lazy var button: UIButton = { // 입력하기, 다시 시작을 할 수 있는 버튼
     let button = UIButton()
-    button.setTitle("입력하기", for: .normal)
     button.backgroundColor = .systemBlue
     return button
   }()

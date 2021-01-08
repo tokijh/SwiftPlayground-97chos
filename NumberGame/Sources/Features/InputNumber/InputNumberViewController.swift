@@ -56,7 +56,6 @@ final class InputNumberViewController: UIViewController {
   // MARK: Configuring
 
   private func configure() {
-    self.title = "NumberInput"
     self.configureNumberButtons()
     self.configureDeleteButton()
     self.configureConfirmButton()
