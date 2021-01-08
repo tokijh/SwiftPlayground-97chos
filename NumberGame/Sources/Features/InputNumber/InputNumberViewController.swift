@@ -68,23 +68,23 @@ final class InputNumberViewController: UIViewController {
     }
   }
 
-    private func configureDeleteButton() {
-        self.deleteButton.addTarget(self, action: #selector(self.didTapDeleteButton), for: .touchUpInside)
+  private func configureDeleteButton() {
+    self.deleteButton.addTarget(self, action: #selector(self.didTapDeleteButton), for: .touchUpInside)
   }
 
   private func configureConfirmButton() {
     self.confirmButton.addTarget(self, action: #selector(self.didTapConfirmButton), for: .touchUpInside)
   }
 
-    private func changeConfirmButtonActive() {
-        if (self.inputNumberLabel.text?.isEmpty)! {
-            self.confirmButton.isEnabled = false
-            self.confirmButton.backgroundColor = .gray
-        } else {
-            self.confirmButton.isEnabled = true
-            self.confirmButton.backgroundColor = .systemBlue
-        }
+  private func changeConfirmButtonActive() {
+    if (self.inputNumberLabel.text?.isEmpty)! {
+      self.confirmButton.isEnabled = false
+      self.confirmButton.backgroundColor = .gray
+    } else {
+      self.confirmButton.isEnabled = true
+      self.confirmButton.backgroundColor = .systemBlue
     }
+  }
 
 
   // MARK: View Lifecycle
@@ -104,9 +104,9 @@ final class InputNumberViewController: UIViewController {
     changeConfirmButtonActive()
   }
 
-    @objc private func didTapDeleteButton() {
+  @objc private func didTapDeleteButton() {
     self.inputText = String(self.inputText.dropLast())
-        changeConfirmButtonActive()
+    changeConfirmButtonActive()
   }
 
   @objc private func didTapConfirmButton() {
