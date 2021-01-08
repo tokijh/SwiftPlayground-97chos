@@ -77,7 +77,10 @@ final class InputNumberViewController: UIViewController {
     self.confirmButton.addTarget(self, action: #selector(self.didTapConfirmButton), for: .touchUpInside)
   }
 
-  private func changeConfirmButtonActive() {
+
+  // MARK: Updating States
+
+  private func updateConfirmButtonEnabled() {
     if self.inputNumberLabel.text?.isEmpty ?? true {
       self.confirmButton.isEnabled = false
     } else {
@@ -100,12 +103,12 @@ final class InputNumberViewController: UIViewController {
 
   @objc private func didTapNumberButton(_ button: UIButton) {
     self.inputText += "\(button.tag)"
-    self.changeConfirmButtonActive()
+    self.updateConfirmButtonEnabled()
   }
 
   @objc private func didTapDeleteButton() {
     self.inputText = String(self.inputText.dropLast())
-    self.changeConfirmButtonActive()
+    self.updateConfirmButtonEnabled()
   }
 
   @objc private func didTapConfirmButton() {
