@@ -48,7 +48,9 @@ final class InputNumberViewController: UIViewController {
   private lazy var confirmButton: UIButton = {
     let button = UIButton()
     button.setTitle("확인", for: .normal)
-    button.backgroundColor = .systemBlue
+    button.setBackgroundImage(UIImage(color: .systemBlue), for: .normal)
+    button.setBackgroundImage(UIImage(color: .systemGray), for: .disabled)
+    button.isEnabled = false
     return button
   }()
 
@@ -76,6 +78,17 @@ final class InputNumberViewController: UIViewController {
   }
 
 
+  // MARK: Updating States
+
+  private func updateConfirmButtonEnabled() {
+    if self.inputNumberLabel.text?.isEmpty ?? true {
+      self.confirmButton.isEnabled = false
+    } else {
+      self.confirmButton.isEnabled = true
+    }
+  }
+
+
   // MARK: View Lifecycle
 
   override func viewDidLoad() {
@@ -90,10 +103,12 @@ final class InputNumberViewController: UIViewController {
 
   @objc private func didTapNumberButton(_ button: UIButton) {
     self.inputText += "\(button.tag)"
+    self.updateConfirmButtonEnabled()
   }
 
   @objc private func didTapDeleteButton() {
     self.inputText = String(self.inputText.dropLast())
+    self.updateConfirmButtonEnabled()
   }
 
   @objc private func didTapConfirmButton() {
