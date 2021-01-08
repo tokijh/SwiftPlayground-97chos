@@ -29,6 +29,7 @@ final class GameListViewController: UIViewController {
 
   private func configureViews() {
     self.title = "게임 목록"
+    self.view.backgroundColor = .systemBackground
     self.configureTableView()
     self.layoutViews()
   }
