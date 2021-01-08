@@ -7,10 +7,15 @@
 
 import UIKit
 
+protocol InputNumberViewControllerDelegate: class {
+  func didInputNumber(_ number: Int)
+}
+
 final class InputNumberViewController: UIViewController {
 
   // MARK: Properties
 
+  weak var delegate: InputNumberViewControllerDelegate?
   private var inputtedText: String = "" {
     didSet {
       self.inputNumberLabel.text = inputtedText
@@ -54,6 +59,7 @@ final class InputNumberViewController: UIViewController {
     self.title = "NumberInput"
     self.configureNumberButtons()
     self.configureDeleteButton()
+    self.configureConfirmButton()
   }
 
   private func configureNumberButtons() {
@@ -64,6 +70,10 @@ final class InputNumberViewController: UIViewController {
 
   private func configureDeleteButton() {
     self.deleteButton.addTarget(self, action: #selector(self.didTapDeleteButton), for: .touchUpInside)
+  }
+
+  private func configureConfirmButton() {
+    self.confirmButton.addTarget(self, action: #selector(self.didTapConfirmButton), for: .touchUpInside)
   }
 
 
@@ -85,6 +95,12 @@ final class InputNumberViewController: UIViewController {
 
   @objc private func didTapDeleteButton() {
     self.inputtedText = String(self.inputtedText.dropLast())
+  }
+
+  @objc private func didTapConfirmButton() {
+    guard let number = Int(self.inputtedText) else { return }
+    self.delegate?.didInputNumber(number)
+    self.dismiss(animated: true)
   }
 
 
