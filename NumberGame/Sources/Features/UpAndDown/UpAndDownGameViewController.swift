@@ -51,6 +51,11 @@ final class UpAndDownGameViewController: UIViewController {
 
   private func configure() {
     self.title = "Up & Down"
+    self.configureButton()
+  }
+
+  private func configureButton() {
+    self.button.addTarget(self, action: #selector(self.didTapButton), for: .touchUpInside)
   }
 
   // MARK: View Lifecycle
@@ -60,6 +65,14 @@ final class UpAndDownGameViewController: UIViewController {
     self.view.backgroundColor = .systemBackground
     self.configure()
     self.layout()
+  }
+
+
+  // MARK: Action
+
+  @objc private func didTapButton() {
+    let viewController = InputNumberViewController()
+    self.present(viewController, animated: true)
   }
 
 
