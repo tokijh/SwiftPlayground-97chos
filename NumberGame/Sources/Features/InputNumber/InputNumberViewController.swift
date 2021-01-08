@@ -101,12 +101,12 @@ final class InputNumberViewController: UIViewController {
 
   @objc private func didTapNumberButton(_ button: UIButton) {
     self.inputText += "\(button.tag)"
-    changeConfirmButtonActive()
+    self.changeConfirmButtonActive()
   }
 
   @objc private func didTapDeleteButton() {
     self.inputText = String(self.inputText.dropLast())
-    changeConfirmButtonActive()
+    self.changeConfirmButtonActive()
   }
 
   @objc private func didTapConfirmButton() {
