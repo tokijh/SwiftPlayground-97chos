@@ -80,7 +80,6 @@ final class InputNumberViewController: UIViewController {
         if (self.inputNumberLabel.text?.isEmpty)! {
             self.confirmButton.isEnabled = false
             self.confirmButton.backgroundColor = .gray
-            print("clicked")
         } else {
             self.confirmButton.isEnabled = true
             self.confirmButton.backgroundColor = .systemBlue
