@@ -48,7 +48,8 @@ final class InputNumberViewController: UIViewController {
   private lazy var confirmButton: UIButton = {
     let button = UIButton()
     button.setTitle("확인", for: .normal)
-    button.backgroundColor = .systemBlue
+    button.backgroundColor = .gray
+    button.isEnabled = false
     return button
   }()
 
@@ -67,13 +68,24 @@ final class InputNumberViewController: UIViewController {
     }
   }
 
-  private func configureDeleteButton() {
-    self.deleteButton.addTarget(self, action: #selector(self.didTapDeleteButton), for: .touchUpInside)
+    private func configureDeleteButton() {
+        self.deleteButton.addTarget(self, action: #selector(self.didTapDeleteButton), for: .touchUpInside)
   }
 
   private func configureConfirmButton() {
     self.confirmButton.addTarget(self, action: #selector(self.didTapConfirmButton), for: .touchUpInside)
   }
+
+    private func changeConfirmButtonActive() {
+        if (self.inputNumberLabel.text?.isEmpty)! {
+            self.confirmButton.isEnabled = false
+            self.confirmButton.backgroundColor = .gray
+            print("clicked")
+        } else {
+            self.confirmButton.isEnabled = true
+            self.confirmButton.backgroundColor = .systemBlue
+        }
+    }
 
 
   // MARK: View Lifecycle
@@ -90,10 +102,12 @@ final class InputNumberViewController: UIViewController {
 
   @objc private func didTapNumberButton(_ button: UIButton) {
     self.inputText += "\(button.tag)"
+    changeConfirmButtonActive()
   }
 
-  @objc private func didTapDeleteButton() {
+    @objc private func didTapDeleteButton() {
     self.inputText = String(self.inputText.dropLast())
+        changeConfirmButtonActive()
   }
 
   @objc private func didTapConfirmButton() {
