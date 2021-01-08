@@ -134,6 +134,15 @@ final class UpAndDownGameViewController: UIViewController {
     }
   }
 
+  private func setEndGame() {
+    self.gameState = .end
+
+    self.inputNumberLabel.text = "정답입니다."
+    self.inputNumberStateLabel.text = "💯"
+    self.inputCountLabel.text = "\(self.inputCount)번 만에 성공!"
+    self.button.setTitle("다시 시작", for: .normal)
+  }
+
 
   // MARK: Layout
 
