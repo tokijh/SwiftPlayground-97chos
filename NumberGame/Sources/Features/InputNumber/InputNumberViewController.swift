@@ -48,7 +48,8 @@ final class InputNumberViewController: UIViewController {
   private lazy var confirmButton: UIButton = {
     let button = UIButton()
     button.setTitle("확인", for: .normal)
-    button.backgroundColor = .gray
+    button.setBackgroundImage(UIImage(color: .systemBlue), for: .normal)
+    button.setBackgroundImage(UIImage(color: .systemGray), for: .disabled)
     button.isEnabled = false
     return button
   }()
@@ -79,10 +80,8 @@ final class InputNumberViewController: UIViewController {
   private func changeConfirmButtonActive() {
     if self.inputNumberLabel.text?.isEmpty ?? true {
       self.confirmButton.isEnabled = false
-      self.confirmButton.backgroundColor = .gray
     } else {
       self.confirmButton.isEnabled = true
-      self.confirmButton.backgroundColor = .systemBlue
     }
   }
 
