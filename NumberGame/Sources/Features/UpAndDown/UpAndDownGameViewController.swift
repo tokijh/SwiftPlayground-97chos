@@ -19,6 +19,9 @@ final class UpAndDownGameViewController: UIViewController {
   // MARK: Properties
 
   private var gameState: GameState = .playing
+  private var answer: Int = 0
+  private var lastInputNumber: Int?
+  private var inputCount: Int = 0
 
 
   // MARK: UI
@@ -70,6 +73,7 @@ final class UpAndDownGameViewController: UIViewController {
     self.button.addTarget(self, action: #selector(self.didTapButton), for: .touchUpInside)
   }
 
+
   // MARK: View Lifecycle
 
   override func viewDidLoad() {
@@ -77,6 +81,8 @@ final class UpAndDownGameViewController: UIViewController {
     self.view.backgroundColor = .systemBackground
     self.configure()
     self.layout()
+
+    self.resetGame()
   }
 
 
@@ -85,6 +91,21 @@ final class UpAndDownGameViewController: UIViewController {
   @objc private func didTapButton() {
     let viewController = InputNumberViewController()
     self.present(viewController, animated: true)
+  }
+
+
+  // MARK: Game
+
+  private func resetGame() {
+    self.gameState = .playing
+    self.answer = Int.random(in: 0...100)
+    self.lastInputNumber = nil
+    self.inputCount = 0
+
+    self.inputNumberLabel.text = nil
+    self.inputNumberStateLabel.text = "❓"
+    self.inputCountLabel.text = nil
+    self.button.setTitle("입력하기", for: .normal)
   }
 
 
