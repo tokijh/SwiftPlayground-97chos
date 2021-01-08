@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		603486E82591009C0060EF0C /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 603486E72591009C0060EF0C /* Extensions.swift */; };
 		603486F3259106840060EF0C /* UpAndDownGameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 603486F2259106840060EF0C /* UpAndDownGameViewController.swift */; };
+		606416F525A6EBE9004ED168 /* InputNumberViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 606416F425A6EBE9004ED168 /* InputNumberViewController.swift */; };
 		606416F925A6ED9C004ED168 /* Array+Chunked.swift in Sources */ = {isa = PBXBuildFile; fileRef = 606416F825A6ED9C004ED168 /* Array+Chunked.swift */; };
 		60D7B6952590FFE20078E884 /* GameCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60D7B6942590FFE20078E884 /* GameCell.swift */; };
 		60DCA7AE258B4E94009BD9B4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60DCA7AD258B4E94009BD9B4 /* AppDelegate.swift */; };
@@ -23,6 +24,7 @@
 		0BE6DD22B5D21258449E3469 /* Pods-NumberGame.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NumberGame.release.xcconfig"; path = "Target Support Files/Pods-NumberGame/Pods-NumberGame.release.xcconfig"; sourceTree = "<group>"; };
 		603486E72591009C0060EF0C /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		603486F2259106840060EF0C /* UpAndDownGameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpAndDownGameViewController.swift; sourceTree = "<group>"; };
+		606416F425A6EBE9004ED168 /* InputNumberViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputNumberViewController.swift; sourceTree = "<group>"; };
 		606416F825A6ED9C004ED168 /* Array+Chunked.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Chunked.swift"; sourceTree = "<group>"; };
 		60D7B6942590FFE20078E884 /* GameCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameCell.swift; sourceTree = "<group>"; };
 		60DCA7AA258B4E94009BD9B4 /* NumberGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NumberGame.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -71,6 +73,14 @@
 				603486F2259106840060EF0C /* UpAndDownGameViewController.swift */,
 			);
 			path = UpAndDown;
+			sourceTree = "<group>";
+		};
+		606416F225A6EBCC004ED168 /* InputNumber */ = {
+			isa = PBXGroup;
+			children = (
+				606416F425A6EBE9004ED168 /* InputNumberViewController.swift */,
+			);
+			path = InputNumber;
 			sourceTree = "<group>";
 		};
 		606416F725A6ED90004ED168 /* Array */ = {
@@ -149,6 +159,7 @@
 			isa = PBXGroup;
 			children = (
 				60DCB0002590E5CD009BD9B4 /* GameList */,
+				606416F225A6EBCC004ED168 /* InputNumber */,
 				603486F1259106750060EF0C /* UpAndDown */,
 			);
 			path = Features;
@@ -288,6 +299,7 @@
 				60DCA7AE258B4E94009BD9B4 /* AppDelegate.swift in Sources */,
 				603486E82591009C0060EF0C /* Extensions.swift in Sources */,
 				606416F925A6ED9C004ED168 /* Array+Chunked.swift in Sources */,
+				606416F525A6EBE9004ED168 /* InputNumberViewController.swift in Sources */,
 				60D7B6952590FFE20078E884 /* GameCell.swift in Sources */,
 				60DCB0022590E5E9009BD9B4 /* GameListViewController.swift in Sources */,
 				60DCA7B0258B4E94009BD9B4 /* SceneDelegate.swift in Sources */,
