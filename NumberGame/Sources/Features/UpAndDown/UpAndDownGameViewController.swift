@@ -101,9 +101,15 @@ final class UpAndDownGameViewController: UIViewController {
   // MARK: Action
 
   @objc private func didTapButton() {
-    let viewController = InputNumberViewController()
-    viewController.delegate = self
-    self.present(viewController, animated: true)
+    switch self.gameState {
+    case .playing:
+      let viewController = InputNumberViewController()
+      viewController.delegate = self
+      self.present(viewController, animated: true)
+
+    case .end:
+      self.resetGame()
+    }
   }
 
 
