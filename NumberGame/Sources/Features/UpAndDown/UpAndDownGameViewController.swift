@@ -9,6 +9,18 @@ import UIKit
 
 final class UpAndDownGameViewController: UIViewController {
 
+  // MARK: Module
+
+  private enum GameState {
+    case playing
+    case end
+  }
+
+  // MARK: Properties
+
+  private var gameState: GameState = .playing
+
+
   // MARK: UI
 
   private lazy var descriptionLabel: UILabel = {
