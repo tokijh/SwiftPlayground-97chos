@@ -9,19 +9,29 @@ import UIKit
 
 final class InputNumberViewController: UIViewController {
 
+  // MARK: Properties
+
+  private var inputtedText: String = "" {
+    didSet {
+      self.inputNumberLabel.text = inputtedText
+    }
+  }
+
+
   // MARK: UI
 
   private lazy var inputNumberLabel: UILabel = {
     let label = UILabel()
     label.font = UIFont.systemFont(ofSize: 50, weight: .heavy)
     label.textAlignment = .center
-    label.text = "59"
+    label.numberOfLines = 0
     return label
   }()
   private lazy var numberButtons: [UIButton] = (0...9).map { number -> UIButton in
     let button = UIButton()
     button.setTitle("\(number)", for: .normal)
     button.setTitleColor(.label, for: .normal)
+    button.tag = number
     return button
   }
   private lazy var deleteButton: UIButton = {
@@ -42,7 +52,15 @@ final class InputNumberViewController: UIViewController {
 
   private func configure() {
     self.title = "NumberInput"
+    self.configureNumberButtons()
   }
+
+  private func configureNumberButtons() {
+    self.numberButtons.forEach { button in
+      button.addTarget(self, action: #selector(self.didTapNumberButton(_:)), for: .touchUpInside)
+    }
+  }
+
 
   // MARK: View Lifecycle
 
@@ -51,6 +69,13 @@ final class InputNumberViewController: UIViewController {
     self.view.backgroundColor = .systemBackground
     self.configure()
     self.layout()
+  }
+
+
+  // MARK: Action
+
+  @objc private func didTapNumberButton(_ button: UIButton) {
+    self.inputtedText += "\(button.tag)"
   }
 
 
@@ -83,7 +108,8 @@ final class InputNumberViewController: UIViewController {
     let contentView = UIView()
     contentView.addSubview(self.inputNumberLabel)
     self.inputNumberLabel.snp.makeConstraints {
-      $0.center.equalToSuperview()
+      $0.centerY.equalToSuperview()
+      $0.leading.trailing.equalToSuperview().inset(24)
     }
     return contentView
   }
