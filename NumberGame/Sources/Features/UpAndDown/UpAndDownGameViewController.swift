@@ -20,8 +20,20 @@ final class UpAndDownGameViewController: UIViewController {
 
   private var gameState: GameState = .playing
   private var answer: Int = 0
-  private var lastInputNumber: Int?
-  private var inputCount: Int = 0
+  private var lastInputNumber: Int? {
+    didSet {
+      if let lastInputNumber = self.lastInputNumber {
+        self.inputNumberLabel.text = "\(lastInputNumber) 보다"
+      } else {
+        self.inputNumberLabel.text = nil
+      }
+    }
+  }
+  private var inputCount: Int = 0 {
+    didSet {
+      self.inputCountLabel.text = "\(self.inputCount)번 입력했습니다."
+    }
+  }
 
 
   // MARK: UI
@@ -90,6 +102,7 @@ final class UpAndDownGameViewController: UIViewController {
 
   @objc private func didTapButton() {
     let viewController = InputNumberViewController()
+    viewController.delegate = self
     self.present(viewController, animated: true)
   }
 
@@ -106,6 +119,19 @@ final class UpAndDownGameViewController: UIViewController {
     self.inputNumberStateLabel.text = "❓"
     self.inputCountLabel.text = nil
     self.button.setTitle("입력하기", for: .normal)
+  }
+
+  private func confirmAnswer(number: Int) {
+    self.lastInputNumber = number
+    self.inputCount += 1
+
+    if self.answer == number {
+      self.setEndGame()
+    } else if number < self.answer {
+      self.inputNumberStateLabel.text = "Up 👍"
+    } else if number > self.answer {
+      self.inputNumberStateLabel.text = "Down 👎"
+    }
   }
 
 
@@ -142,5 +168,11 @@ final class UpAndDownGameViewController: UIViewController {
       $0.bottom.equalToSuperview()
     }
     self.button.contentEdgeInsets.bottom = windowSafeAreaInsets.bottom
+  }
+}
+
+extension UpAndDownGameViewController: InputNumberViewControllerDelegate {
+  func didInputNumber(_ number: Int) {
+    self.confirmAnswer(number: number)
   }
 }
