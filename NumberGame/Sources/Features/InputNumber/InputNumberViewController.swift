@@ -77,7 +77,7 @@ final class InputNumberViewController: UIViewController {
   }
 
   private func changeConfirmButtonActive() {
-    if (self.inputNumberLabel.text?.isEmpty)! {
+    if self.inputNumberLabel.text?.isEmpty ?? true {
       self.confirmButton.isEnabled = false
       self.confirmButton.backgroundColor = .gray
     } else {
