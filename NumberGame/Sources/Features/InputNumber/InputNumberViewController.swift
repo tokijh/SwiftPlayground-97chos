@@ -16,9 +16,9 @@ final class InputNumberViewController: UIViewController {
   // MARK: Properties
 
   weak var delegate: InputNumberViewControllerDelegate?
-  private var inputtedText: String = "" {
+  private var inputText: String = "" {
     didSet {
-      self.inputNumberLabel.text = inputtedText
+      self.inputNumberLabel.text = inputText
     }
   }
 
@@ -89,15 +89,15 @@ final class InputNumberViewController: UIViewController {
   // MARK: Action
 
   @objc private func didTapNumberButton(_ button: UIButton) {
-    self.inputtedText += "\(button.tag)"
+    self.inputText += "\(button.tag)"
   }
 
   @objc private func didTapDeleteButton() {
-    self.inputtedText = String(self.inputtedText.dropLast())
+    self.inputText = String(self.inputText.dropLast())
   }
 
   @objc private func didTapConfirmButton() {
-    guard let number = Int(self.inputtedText) else { return }
+    guard let number = Int(self.inputText) else { return }
     self.delegate?.didInputNumber(number)
     self.dismiss(animated: true)
   }
