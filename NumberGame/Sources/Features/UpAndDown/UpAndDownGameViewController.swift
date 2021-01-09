@@ -70,9 +70,9 @@ final class UpAndDownGameViewController: UIViewController {
   }()
   private lazy var earlySuccessView: UIView = { // 3회 이하로 성공 시 노출될 축하 화면
     let view = UIView()
-    view.backgroundColor = UIColor(red: 137/255, green: 196/255, blue: 244/255, alpha: 1)
+    view.backgroundColor = UIColor(red: 137, green: 196, blue: 244)
     view.alpha = 0
-    view.transform = CGAffineTransform(scaleX: 0.1, y: 0.1)
+    view.transform = CGAffineTransform(translationX: 0, y: self.view.bounds.height)
     return view
   }()
   private lazy var earlySuccessCountLabel: UILabel = {  // 축하 화면 내 횟수 노출 텍스트 라벨
@@ -117,6 +117,7 @@ final class UpAndDownGameViewController: UIViewController {
     self.layout()
 
     self.resetGame()
+    print(answer)
   }
 
 
@@ -128,9 +129,10 @@ final class UpAndDownGameViewController: UIViewController {
       let viewController = InputNumberViewController()
       viewController.delegate = self
       self.present(viewController, animated: true)
+      self.earlySuccessView.alpha = 0
 
     case .end:
-      self.earlySuccessViewHide(view: earlySuccessView)
+      self.resetGame()
     }
   }
 
@@ -146,8 +148,9 @@ final class UpAndDownGameViewController: UIViewController {
     self.inputNumberLabel.text = nil
     self.inputNumberStateLabel.text = "❓"
     self.inputCountLabel.text = nil
-    self.earlySuccessView.alpha = 0
     self.button.setTitle("입력하기", for: .normal)
+
+    self.earlySuccessViewHide(view: self.earlySuccessView)
   }
 
   private func confirmAnswer(number: Int) {
@@ -168,66 +171,41 @@ final class UpAndDownGameViewController: UIViewController {
     if self.inputCount < 4 {
       self.earlySuccessViewShow(view: earlySuccessView)
     }
-    else {
-      self.inputNumberLabel.text = "정답입니다."
-      self.inputNumberStateLabel.text = "💯"
-      self.inputCountLabel.text = "\(self.inputCount)번 만에 성공!"
-    }
+
+    self.inputNumberLabel.text = "정답입니다."
+    self.inputNumberStateLabel.text = "💯"
+    self.inputCountLabel.text = "\(self.inputCount)번 만에 성공!"
+
     self.button.setTitle("다시 시작", for: .normal)
   }
 
   private func earlySuccessViewShow(view: UIView) {
-    self.inputNumberLabel.text = nil
-    self.inputCountLabel.text = nil
-    self.inputNumberStateLabel.alpha = 0
 
     self.earlySuccessCountLabel.text = "\(self.inputCount)회"
     self.earlySuccessTextLabel.text = "만에 성공!"
 
     UIView.animate(withDuration: 0.7,
                    delay: 0,
-                   options: .curveEaseIn,
+                   options: .curveEaseOut,
                    animations: {
                     view.transform = CGAffineTransform.identity
                     view.alpha = 1
+                   },
+                   completion: { _ in
+                    self.earlySuccessViewHide(view: self.earlySuccessView, delay: 2.5)
                    })
-    UIView.transition(with: view,
-                      duration: 1,
-                      options: .transitionFlipFromLeft,
-                      animations: nil)
+
   }
 
-  private func earlySuccessViewHide(view: UIView) {
-    UIView.animate(withDuration: 0.3,
-                   delay: 0,
+  private func earlySuccessViewHide(view: UIView, delay: TimeInterval = 0) {
+    UIView.animate(withDuration: 0.7,
+                   delay: delay,
                    options: .curveEaseIn,
                    animations: {
+                    view.transform = CGAffineTransform.init(translationX: 0, y: self.view.bounds.height)
                     view.alpha = 0
                    })
-    UIView.transition(with: view,
-                      duration: 1,
-                      options: .transitionFlipFromRight,
-                      animations: nil,
-                      completion: { _ in
-                        self.inputNumberStateLabelAnimate(label: self.inputNumberStateLabel)
-                        self.resetGame()
-                      })
   }
-
-  private func inputNumberStateLabelAnimate(label: UILabel) {
-    UILabel.animate(withDuration: 0.7,
-                   delay: 0,
-                   options: .curveEaseIn,
-                   animations: {
-                    label.alpha = 1
-                   })
-    UILabel.transition(with: label,
-                      duration: 1,
-                      options: .transitionFlipFromRight,
-                      animations: nil)
-  }
-
-
 
 
   // MARK: Layout
@@ -272,8 +250,7 @@ final class UpAndDownGameViewController: UIViewController {
       $0.centerX.equalToSuperview()
     }
     self.earlySuccessCountLabel.snp.makeConstraints {
-      $0.centerY.equalToSuperview()
-      $0.centerX.equalToSuperview()
+      $0.center.equalToSuperview()
     }
     self.earlySuccessTextLabel.snp.makeConstraints {
       $0.bottom.equalToSuperview().inset(10)
