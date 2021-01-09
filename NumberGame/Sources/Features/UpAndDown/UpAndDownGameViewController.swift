@@ -170,6 +170,33 @@ final class UpAndDownGameViewController: UIViewController {
     self.inputNumberStateLabel.text = "💯"
     self.inputCountLabel.text = "\(self.inputCount)번 만에 성공!"
     self.button.setTitle("다시 시작", for: .normal)
+
+    if self.inputCount <= 3 {
+      self.showCongratulationView()
+    }
+  }
+
+  private func showCongratulationView() {
+    self.congratulationTitleLabel.text = "\(self.inputCount)번 만에 성공!"
+    self.congratulationDescriptionLabel.text = [
+      "운도 실력입니다.\n당신의 운에 Cheers 🍻",
+      "당신은 최고입니다❤️",
+      "세상에나 이걸 해내네요 ┏(ºдº)┛",
+    ].randomElement()
+
+    self.congratulationView.isHidden = false
+    self.congratulationView.alpha = 0
+
+    // 화면 하단에서 화면 중앙으로 올라오는 애니메이션을 구현하기 위해 먼저 화면 하단으로 이동함.
+    self.congratulationView.center = {
+      var center = self.view.center
+      center.y = self.view.frame.height
+      return center
+    }()
+    UIView.animate(withDuration: 0.5) {
+      self.congratulationView.alpha = 1
+      self.congratulationView.center = self.view.center // 화면 중앙으로 이동
+    }
   }
 
 
