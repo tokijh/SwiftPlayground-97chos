@@ -102,10 +102,15 @@ final class UpAndDownGameViewController: UIViewController {
   private func configure() {
     self.title = "Up & Down"
     self.configureButton()
+    self.configureCongratulationDismissButton()
   }
 
   private func configureButton() {
     self.button.addTarget(self, action: #selector(self.didTapButton), for: .touchUpInside)
+  }
+
+  private func configureCongratulationDismissButton() {
+    self.congratulationDismissButton.addTarget(self, action: #selector(self.didTapCongratulationDismissButton), for: .touchUpInside)
   }
 
 
@@ -133,6 +138,10 @@ final class UpAndDownGameViewController: UIViewController {
     case .end:
       self.resetGame()
     }
+  }
+
+  @objc private func didTapCongratulationDismissButton() {
+    self.dismissCongratulationView()
   }
 
 
@@ -197,6 +206,18 @@ final class UpAndDownGameViewController: UIViewController {
       self.congratulationView.alpha = 1
       self.congratulationView.center = self.view.center // 화면 중앙으로 이동
     }
+  }
+
+  private func dismissCongratulationView() {
+    UIView.animate(
+      withDuration: 0.5,
+      animations: {
+        self.congratulationView.alpha = 0
+      },
+      completion: { _ in
+        self.congratulationView.isHidden = true
+      }
+    )
   }
 
 
