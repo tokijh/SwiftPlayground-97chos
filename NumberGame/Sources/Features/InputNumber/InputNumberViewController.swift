@@ -16,6 +16,7 @@ final class InputNumberViewController: UIViewController {
   // MARK: Properties
 
   weak var delegate: InputNumberViewControllerDelegate?
+
   private var inputText: String = "" {
     didSet {
       self.inputNumberLabel.text = inputText
