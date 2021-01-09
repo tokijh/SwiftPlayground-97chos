@@ -141,7 +141,7 @@ final class UpAndDownGameViewController: UIViewController {
   }
 
   @objc private func didTapCongratulationDismissButton() {
-    self.dismissCongratulationView()
+    self.dismissCongratulationViewIfNeeded()
   }
 
 
@@ -157,6 +157,8 @@ final class UpAndDownGameViewController: UIViewController {
     self.inputNumberStateLabel.text = "❓"
     self.inputCountLabel.text = nil
     self.button.setTitle("입력하기", for: .normal)
+
+    self.dismissCongratulationViewIfNeeded()
   }
 
   private func confirmAnswer(number: Int) {
@@ -208,7 +210,7 @@ final class UpAndDownGameViewController: UIViewController {
     }
   }
 
-  private func dismissCongratulationView() {
+  private func dismissCongratulationViewIfNeeded() {
     UIView.animate(
       withDuration: 0.5,
       animations: {
