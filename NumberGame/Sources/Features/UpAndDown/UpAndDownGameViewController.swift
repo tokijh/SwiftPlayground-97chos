@@ -16,6 +16,7 @@ final class UpAndDownGameViewController: UIViewController {
     case end
   }
 
+
   // MARK: Properties
 
   private var gameState: GameState = .playing
@@ -65,6 +66,32 @@ final class UpAndDownGameViewController: UIViewController {
   }()
   private lazy var button: UIButton = { // 입력하기, 다시 시작을 할 수 있는 버튼
     let button = UIButton()
+    button.backgroundColor = .systemBlue
+    return button
+  }()
+  private lazy var congratulationView: UIView = {
+    let view = UIView()
+    view.backgroundColor = .white
+    view.layer.cornerRadius = 5
+    view.layer.borderWidth = 1
+    view.layer.borderColor = UIColor.black.cgColor
+    view.clipsToBounds = true
+    view.isHidden = true
+    return view
+  }()
+  private lazy var congratulationTitleLabel: UILabel = {
+    let label = UILabel()
+    label.font = UIFont.preferredFont(forTextStyle: .title1)
+    return label
+  }()
+  private lazy var congratulationDescriptionLabel: UILabel = {
+    let label = UILabel()
+    label.numberOfLines = 0
+    return label
+  }()
+  private lazy var congratulationDismissButton: UIButton = {
+    let button = UIButton()
+    button.setTitle("닫기", for: .normal)
     button.backgroundColor = .systemBlue
     return button
   }()
@@ -179,6 +206,46 @@ final class UpAndDownGameViewController: UIViewController {
       $0.bottom.equalToSuperview()
     }
     self.button.contentEdgeInsets.bottom = windowSafeAreaInsets.bottom
+
+    self.layoutCongratulationView()
+  }
+
+  private func layoutCongratulationView() {
+    let emojiLabel = UILabel()
+    emojiLabel.font = UIFont.systemFont(ofSize: 70, weight: .heavy)
+    emojiLabel.text = "🎉"
+    emojiLabel.textAlignment = .center
+
+    self.congratulationView.addSubview(emojiLabel)
+    self.congratulationView.addSubview(self.congratulationTitleLabel)
+    self.congratulationView.addSubview(self.congratulationDescriptionLabel)
+    self.congratulationView.addSubview(self.congratulationDismissButton)
+
+    emojiLabel.snp.makeConstraints {
+      $0.top.equalToSuperview()
+      $0.width.equalToSuperview()
+      $0.width.equalTo(200)
+      $0.height.equalTo(100)
+    }
+    self.congratulationTitleLabel.snp.makeConstraints {
+      $0.top.equalTo(emojiLabel.snp.bottom).offset(8)
+      $0.leading.trailing.equalToSuperview().inset(2)
+    }
+    self.congratulationDescriptionLabel.snp.makeConstraints {
+      $0.top.equalTo(self.congratulationTitleLabel.snp.bottom).offset(4)
+      $0.leading.trailing.equalToSuperview().inset(2)
+    }
+    self.congratulationDismissButton.snp.makeConstraints {
+      $0.top.equalTo(self.congratulationDescriptionLabel.snp.bottom).offset(16)
+      $0.leading.trailing.equalToSuperview()
+      $0.bottom.equalToSuperview()
+      $0.height.equalTo(48)
+    }
+
+    self.view.addSubview(self.congratulationView)
+    self.congratulationView.snp.makeConstraints {
+      $0.center.equalToSuperview()
+    }
   }
 }
 
