@@ -148,7 +148,6 @@ final class UpAndDownGameViewController: UIViewController {
     self.inputCountLabel.text = nil
     self.earlySuccessView.alpha = 0
     self.button.setTitle("입력하기", for: .normal)
-    print(self.answer)
   }
 
   private func confirmAnswer(number: Int) {
@@ -287,10 +286,6 @@ final class UpAndDownGameViewController: UIViewController {
     }
     self.button.contentEdgeInsets.bottom = windowSafeAreaInsets.bottom
   }
-
-
-  // MARK: Animation
-
 
 }
 
