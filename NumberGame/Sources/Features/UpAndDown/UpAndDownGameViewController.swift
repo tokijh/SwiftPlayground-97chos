@@ -34,6 +34,7 @@ final class UpAndDownGameViewController: UIViewController {
       self.inputCountLabel.text = "\(self.inputCount)번 입력했습니다."
     }
   }
+  private var isEarlySucceeded: Bool!
 
 
   // MARK: UI
@@ -117,7 +118,6 @@ final class UpAndDownGameViewController: UIViewController {
     self.layout()
 
     self.resetGame()
-    print(answer)
   }
 
 
@@ -132,7 +132,11 @@ final class UpAndDownGameViewController: UIViewController {
       self.earlySuccessView.alpha = 0
 
     case .end:
-      self.resetGame()
+      if self.isEarlySucceeded {
+        self.earlySuccessViewHide(view: earlySuccessView)
+      } else {
+        self.resetGame()
+      }
     }
   }
 
@@ -180,6 +184,7 @@ final class UpAndDownGameViewController: UIViewController {
   }
 
   private func earlySuccessViewShow(view: UIView) {
+    self.isEarlySucceeded = true
 
     self.earlySuccessCountLabel.text = "\(self.inputCount)회"
     self.earlySuccessTextLabel.text = "만에 성공!"
@@ -190,14 +195,12 @@ final class UpAndDownGameViewController: UIViewController {
                    animations: {
                     view.transform = CGAffineTransform.identity
                     view.alpha = 1
-                   },
-                   completion: { _ in
-                    self.earlySuccessViewHide(view: self.earlySuccessView, delay: 2.5)
                    })
-
   }
 
   private func earlySuccessViewHide(view: UIView, delay: TimeInterval = 0) {
+    self.isEarlySucceeded = false
+
     UIView.animate(withDuration: 0.7,
                    delay: delay,
                    options: .curveEaseIn,
