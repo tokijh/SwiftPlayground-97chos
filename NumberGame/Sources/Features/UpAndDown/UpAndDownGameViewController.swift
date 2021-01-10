@@ -35,6 +35,7 @@ final class UpAndDownGameViewController: UIViewController {
     }
   }
   private var isEarlySucceeded: Bool!
+  private var latelyInputNumberList: [Int] = []
 
 
   // MARK: UI
@@ -95,6 +96,19 @@ final class UpAndDownGameViewController: UIViewController {
     label.textAlignment = .center
     return label
   }()
+  private lazy var tableViewTitle: UILabel = {
+    let label = UILabel()
+    label.font = UIFont.preferredFont(forTextStyle: .subheadline)
+    label.text = "최근 입력한 숫자"
+    return label
+  }()
+  private lazy var latelyInputNumberTableView: UITableView = {  // 하단에 표시될 최근 숫자 입력 테이블 뷰
+    let tv = UITableView()
+    tv.dataSource = self
+    tv.delegate = self
+    tv.allowsSelection = false
+    return tv
+  }()
 
 
   // MARK: Configuring
@@ -130,6 +144,8 @@ final class UpAndDownGameViewController: UIViewController {
       viewController.delegate = self
       self.present(viewController, animated: true)
       self.earlySuccessView.alpha = 0
+      self.latelyInputNumberList = []
+      self.latelyInputNumberTableView.reloadData()
 
     case .end:
       if self.isEarlySucceeded {
@@ -209,6 +225,11 @@ final class UpAndDownGameViewController: UIViewController {
                    })
   }
 
+  private func appendlatelyInputNumberList(number: Int) {
+    self.latelyInputNumberList.append(number)
+    self.latelyInputNumberTableView.reloadData()
+  }
+
 
   // MARK: Layout
 
@@ -221,6 +242,8 @@ final class UpAndDownGameViewController: UIViewController {
     self.view.addSubview(self.inputCountLabel)
     self.view.addSubview(self.button)
     self.view.addSubview(self.earlySuccessView)
+    self.view.addSubview(self.latelyInputNumberTableView)
+    self.view.addSubview(self.tableViewTitle)
 
     self.earlySuccessView.addSubview(self.earlySuccessIcon)
     self.earlySuccessView.addSubview(self.earlySuccessTextLabel)
@@ -258,6 +281,15 @@ final class UpAndDownGameViewController: UIViewController {
       $0.bottom.equalToSuperview().inset(10)
       $0.centerX.equalToSuperview()
     }
+    self.tableViewTitle.snp.makeConstraints {
+      $0.top.equalTo(self.inputCountLabel.snp.bottom).offset(10)
+      $0.leading.equalTo(self.descriptionLabel)
+    }
+    self.latelyInputNumberTableView.snp.makeConstraints {
+      $0.top.equalTo(self.tableViewTitle.snp.bottom)
+      $0.leading.trailing.equalToSuperview().inset(20)
+      $0.bottom.equalTo(self.button.snp.top).offset(-20)
+    }
     self.button.snp.makeConstraints {
       $0.width.equalToSuperview()
       $0.height.equalTo(56 + windowSafeAreaInsets.bottom)
@@ -268,8 +300,29 @@ final class UpAndDownGameViewController: UIViewController {
 
 }
 
+
+extension UpAndDownGameViewController: UITableViewDataSource {
+  func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    return self.latelyInputNumberList.count
+  }
+
+  func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    let cell = self.latelyInputNumberTableView.dequeueReusableCell(withIdentifier: "latelyNumberCell") ?? UITableViewCell(style: .default, reuseIdentifier: "latelyNumberCell")
+
+    cell.textLabel?.text = "\(self.latelyInputNumberList[indexPath.row])"
+
+    return cell
+  }
+}
+
+extension UpAndDownGameViewController: UITableViewDelegate {
+
+}
+
+
 extension UpAndDownGameViewController: InputNumberViewControllerDelegate {
   func didInputNumber(_ number: Int) {
     self.confirmAnswer(number: number)
+    self.appendlatelyInputNumberList(number: number)
   }
 }
