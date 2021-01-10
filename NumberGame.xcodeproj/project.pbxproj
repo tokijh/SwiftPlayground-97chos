@@ -20,6 +20,7 @@
 		60DCB0022590E5E9009BD9B4 /* GameListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60DCB0012590E5E9009BD9B4 /* GameListViewController.swift */; };
 		87A6F1EAF8FD7339273E9688 /* Pods_NumberGame.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B5630E1C8B110FDEBD954711 /* Pods_NumberGame.framework */; };
 		FF83C26A25AA3E920020E7EC /* UIColor+Init.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF83C26925AA3E920020E7EC /* UIColor+Init.swift */; };
+		FF83C27225AB62DB0020E7EC /* LatelyInputtedNumberTableViewCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF83C27125AB62DB0020E7EC /* LatelyInputtedNumberTableViewCellModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,6 +41,7 @@
 		A296999119637D2B3535F749 /* Pods-NumberGame.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NumberGame.debug.xcconfig"; path = "Target Support Files/Pods-NumberGame/Pods-NumberGame.debug.xcconfig"; sourceTree = "<group>"; };
 		B5630E1C8B110FDEBD954711 /* Pods_NumberGame.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_NumberGame.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FF83C26925AA3E920020E7EC /* UIColor+Init.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Init.swift"; sourceTree = "<group>"; };
+		FF83C27125AB62DB0020E7EC /* LatelyInputtedNumberTableViewCellModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LatelyInputtedNumberTableViewCellModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -76,6 +78,7 @@
 			isa = PBXGroup;
 			children = (
 				603486F2259106840060EF0C /* UpAndDownGameViewController.swift */,
+				FF83C27125AB62DB0020E7EC /* LatelyInputtedNumberTableViewCellModel.swift */,
 			);
 			path = UpAndDown;
 			sourceTree = "<group>";
@@ -320,6 +323,7 @@
 				60DCA7B0258B4E94009BD9B4 /* SceneDelegate.swift in Sources */,
 				609257A225A8F16600D407B0 /* UIImageFromUIColor.swift in Sources */,
 				603486F3259106840060EF0C /* UpAndDownGameViewController.swift in Sources */,
+				FF83C27225AB62DB0020E7EC /* LatelyInputtedNumberTableViewCellModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

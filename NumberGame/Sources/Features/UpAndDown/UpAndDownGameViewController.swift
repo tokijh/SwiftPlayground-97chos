@@ -35,7 +35,7 @@ final class UpAndDownGameViewController: UIViewController {
     }
   }
   private var isEarlySucceeded: Bool!
-  private var latelyInputNumberList: [Int] = []
+  private var latelyInputNumberList: [LatelyInputtedNumberTableViewCellModel] = []
 
 
   // MARK: UI
@@ -144,14 +144,14 @@ final class UpAndDownGameViewController: UIViewController {
       viewController.delegate = self
       self.present(viewController, animated: true)
       self.earlySuccessView.alpha = 0
-      self.latelyInputNumberList = []
-      self.latelyInputNumberTableView.reloadData()
 
     case .end:
       if self.isEarlySucceeded {
         self.earlySuccessViewHide(view: earlySuccessView)
       } else {
         self.resetGame()
+        self.latelyInputNumberList = []
+        self.latelyInputNumberTableView.reloadData()
       }
     }
   }
@@ -178,13 +178,21 @@ final class UpAndDownGameViewController: UIViewController {
     self.lastInputNumber = number
     self.inputCount += 1
 
+    var resultText: String!
+
     if self.answer == number {
       self.setEndGame()
+      resultText = "🙆‍♀️🙆‍♂️"
     } else if number < self.answer {
-      self.inputNumberStateLabel.text = "Up 👍"
+      resultText = "Up 👍"
+      self.inputNumberStateLabel.text = resultText
     } else if number > self.answer {
-      self.inputNumberStateLabel.text = "Down 👎"
+      resultText = "Down 👎"
+      self.inputNumberStateLabel.text = resultText
     }
+
+    let resultData: LatelyInputtedNumberTableViewCellModel = LatelyInputtedNumberTableViewCellModel(number: number, result: resultText)
+    appendlatelyInputNumberList(resultData)
   }
 
   private func setEndGame() {
@@ -225,8 +233,8 @@ final class UpAndDownGameViewController: UIViewController {
                    })
   }
 
-  private func appendlatelyInputNumberList(number: Int) {
-    self.latelyInputNumberList.append(number)
+  private func appendlatelyInputNumberList(_ resultData: LatelyInputtedNumberTableViewCellModel) {
+    self.latelyInputNumberList.append(resultData)
     self.latelyInputNumberTableView.reloadData()
   }
 
@@ -241,9 +249,9 @@ final class UpAndDownGameViewController: UIViewController {
     self.view.addSubview(self.inputNumberStateLabel)
     self.view.addSubview(self.inputCountLabel)
     self.view.addSubview(self.button)
-    self.view.addSubview(self.earlySuccessView)
     self.view.addSubview(self.latelyInputNumberTableView)
     self.view.addSubview(self.tableViewTitle)
+    self.view.addSubview(self.earlySuccessView)
 
     self.earlySuccessView.addSubview(self.earlySuccessIcon)
     self.earlySuccessView.addSubview(self.earlySuccessTextLabel)
@@ -307,9 +315,10 @@ extension UpAndDownGameViewController: UITableViewDataSource {
   }
 
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    let cell = self.latelyInputNumberTableView.dequeueReusableCell(withIdentifier: "latelyNumberCell") ?? UITableViewCell(style: .default, reuseIdentifier: "latelyNumberCell")
+    let cell = self.latelyInputNumberTableView.dequeueReusableCell(withIdentifier: "latelyNumberCell") ?? UITableViewCell(style: .value1, reuseIdentifier: "latelyNumberCell")
 
-    cell.textLabel?.text = "\(self.latelyInputNumberList[indexPath.row])"
+    cell.textLabel?.text = "\(self.latelyInputNumberList[indexPath.row].number)"
+    cell.detailTextLabel?.text = "\(self.latelyInputNumberList[indexPath.row].result)"
 
     return cell
   }
@@ -323,6 +332,5 @@ extension UpAndDownGameViewController: UITableViewDelegate {
 extension UpAndDownGameViewController: InputNumberViewControllerDelegate {
   func didInputNumber(_ number: Int) {
     self.confirmAnswer(number: number)
-    self.appendlatelyInputNumberList(number: number)
   }
 }
