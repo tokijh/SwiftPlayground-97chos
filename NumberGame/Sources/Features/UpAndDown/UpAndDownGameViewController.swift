@@ -35,7 +35,12 @@ final class UpAndDownGameViewController: UIViewController {
     }
   }
   private var isEarlySucceeded: Bool!
-  private var latelyInputNumberList: [LatelyInputtedNumberTableViewCellModel] = []
+  private let udKey: String = "inputtedNumbers"
+  private lazy var latelyInputNumberList: [LatelyInputtedNumberTableViewCellModel] = self.loadFromUserDefaults() {
+    didSet {
+      self.saveToUserDefaults(self.latelyInputNumberList)
+    }
+  }
 
 
   // MARK: UI
@@ -236,6 +241,28 @@ final class UpAndDownGameViewController: UIViewController {
   private func appendlatelyInputNumberList(_ resultData: LatelyInputtedNumberTableViewCellModel) {
     self.latelyInputNumberList.append(resultData)
     self.latelyInputNumberTableView.reloadData()
+  }
+
+  func saveToUserDefaults(_ list: [LatelyInputtedNumberTableViewCellModel]) {
+    do {
+      let data = try NSKeyedArchiver.archivedData(withRootObject: list, requiringSecureCoding: false)
+      UserDefaults.standard.setValue(data, forKey: self.udKey)
+    } catch {
+      print(error)
+    }
+  }
+
+  func loadFromUserDefaults() -> [LatelyInputtedNumberTableViewCellModel] {
+    let achievedData = UserDefaults.standard.object(forKey: self.udKey)
+
+    do {
+      let unAchievedData = try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(achievedData as? Data ?? Data([]))
+      let data = unAchievedData as? [LatelyInputtedNumberTableViewCellModel] ?? []
+      return data
+    } catch {
+      print(error)
+      return []
+    }
   }
 
 
