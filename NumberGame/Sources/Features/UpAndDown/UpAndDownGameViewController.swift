@@ -323,7 +323,7 @@ final class UpAndDownGameViewController: UIViewController {
       $0.centerX.equalToSuperview()
     }
     self.tableViewTitle.snp.makeConstraints {
-      $0.top.equalTo(self.inputCountLabel.snp.bottom).offset(10)
+      $0.top.equalTo(self.descriptionLabel.snp.bottom).offset(240)
       $0.leading.equalTo(self.descriptionLabel)
     }
     self.latelyInputNumberTableView.snp.makeConstraints {
