@@ -102,7 +102,7 @@ final class UpAndDownGameViewController: UIViewController {
     label.textAlignment = .center
     return label
   }()
-  private lazy var tableViewTitle: UILabel = {
+  private lazy var tableViewTitle: UILabel = {  // 테이블 뷰 상단에 노출될 타이틀 라벨
     let label = UILabel()
     label.font = UIFont.preferredFont(forTextStyle: .subheadline)
     label.text = "최근 입력한 숫자"
@@ -234,7 +234,6 @@ final class UpAndDownGameViewController: UIViewController {
   }
 
   private func earlySuccessViewHide(view: UIView, delay: TimeInterval = 0) {
-
     UIView.animate(withDuration: 0.7,
                    delay: delay,
                    options: .curveEaseIn,
@@ -341,7 +340,6 @@ final class UpAndDownGameViewController: UIViewController {
 
 }
 
-
 extension UpAndDownGameViewController: UITableViewDataSource {
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     return self.latelyInputNumberList.count
@@ -360,7 +358,6 @@ extension UpAndDownGameViewController: UITableViewDataSource {
 extension UpAndDownGameViewController: UITableViewDelegate {
 
 }
-
 
 extension UpAndDownGameViewController: InputNumberViewControllerDelegate {
   func didInputNumber(_ number: Int) {
