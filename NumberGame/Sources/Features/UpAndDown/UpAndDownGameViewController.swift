@@ -155,6 +155,7 @@ final class UpAndDownGameViewController: UIViewController {
     self.button.setTitle("입력하기", for: .normal)
 
     self.earlySuccessViewHide(view: self.earlySuccessView)
+    self.isEarlySucceeded = false
   }
 
   private func confirmAnswer(number: Int) {
@@ -174,6 +175,7 @@ final class UpAndDownGameViewController: UIViewController {
     self.gameState = .end
     if self.inputCount < 4 {
       self.earlySuccessViewShow(view: earlySuccessView)
+      self.isEarlySucceeded = true
     }
 
     self.inputNumberLabel.text = "정답입니다."
@@ -184,8 +186,6 @@ final class UpAndDownGameViewController: UIViewController {
   }
 
   private func earlySuccessViewShow(view: UIView) {
-    self.isEarlySucceeded = true
-
     self.earlySuccessCountLabel.text = "\(self.inputCount)회"
     self.earlySuccessTextLabel.text = "만에 성공!"
 
@@ -199,7 +199,6 @@ final class UpAndDownGameViewController: UIViewController {
   }
 
   private func earlySuccessViewHide(view: UIView, delay: TimeInterval = 0) {
-    self.isEarlySucceeded = false
 
     UIView.animate(withDuration: 0.7,
                    delay: delay,
