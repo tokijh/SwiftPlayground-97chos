@@ -16,6 +16,10 @@ final class UpAndDownGameViewController: UIViewController {
     case end
   }
 
+  private enum UserDefaultsKey {
+    static let inpuNumbers = "inputtedNumbers"
+  }
+
   // MARK: Properties
 
   private var gameState: GameState = .playing
@@ -35,7 +39,6 @@ final class UpAndDownGameViewController: UIViewController {
     }
   }
   private var isEarlySucceeded: Bool!
-  private let udKey: String = "inputtedNumbers"
   private lazy var latelyInputNumberList: [String] = self.loadFromUserDefaults() {
     didSet {
       self.saveToUserDefaults(self.latelyInputNumberList)
@@ -253,11 +256,11 @@ final class UpAndDownGameViewController: UIViewController {
   }
 
   private func saveToUserDefaults(_ list: [String]) {
-      UserDefaults.standard.setValue(list, forKey: self.udKey)
+    UserDefaults.standard.setValue(list, forKey: UserDefaultsKey.inpuNumbers)
   }
 
   private func loadFromUserDefaults() -> [String] {
-    UserDefaults.standard.value(forKey: self.udKey) as? [String] ?? []
+    UserDefaults.standard.value(forKey: UserDefaultsKey.inpuNumbers) as? [String] ?? []
   }
 
   private func encodeToJson(rawData: LatelyInputtedNumberTableViewCellModel) -> String {
