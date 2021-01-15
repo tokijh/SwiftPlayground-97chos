@@ -36,7 +36,7 @@ final class UpAndDownGameViewController: UIViewController {
   }
   private var isEarlySucceeded: Bool!
   private let udKey: String = "inputtedNumbers"
-  private lazy var latelyInputNumberList: [LatelyInputtedNumberTableViewCellModel] = self.loadFromUserDefaults() {
+  private lazy var latelyInputNumberList: [String] = self.loadFromUserDefaults() {
     didSet {
       self.saveToUserDefaults(self.latelyInputNumberList)
     }
@@ -243,30 +243,43 @@ final class UpAndDownGameViewController: UIViewController {
                    })
   }
 
-  private func appendlatelyInputNumberList(_ resultData: LatelyInputtedNumberTableViewCellModel) {
-    self.latelyInputNumberList.append(resultData)
+  private func appendLatelyInputNumberList(_ resultData: LatelyInputtedNumberTableViewCellModel) {
+    let encodedData = self.encodeToJson(rawData: resultData)
+    self.latelyInputNumberList.append(encodedData)
     self.latelyInputNumberTableView.reloadData()
   }
 
-  func saveToUserDefaults(_ list: [LatelyInputtedNumberTableViewCellModel]) {
+  private func saveToUserDefaults(_ list: [String]) {
+      UserDefaults.standard.setValue(list, forKey: self.udKey)
+  }
+
+  private func loadFromUserDefaults() -> [String] {
+    UserDefaults.standard.value(forKey: self.udKey) as? [String] ?? []
+  }
+
+  private func encodeToJson(rawData: LatelyInputtedNumberTableViewCellModel) -> String {
+    let encorder = JSONEncoder()
+
     do {
-      let data = try NSKeyedArchiver.archivedData(withRootObject: list, requiringSecureCoding: false)
-      UserDefaults.standard.setValue(data, forKey: self.udKey)
+      let encodedData = try? encorder.encode(rawData)
+      guard let jsonData = encodedData, let jsonString = String(data: jsonData, encoding: .utf8) else {
+        return ""
+      }
+      return jsonString
     } catch {
-      print(error)
+      return ""
     }
   }
 
-  func loadFromUserDefaults() -> [LatelyInputtedNumberTableViewCellModel] {
-    let achievedData = UserDefaults.standard.object(forKey: self.udKey)
+  private func decodeFromJson(jsonString: String) -> LatelyInputtedNumberTableViewCellModel? {
+    let decorder = JSONDecoder()
 
-    do {
-      let unAchievedData = try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(achievedData as? Data ?? Data([]))
-      let data = unAchievedData as? [LatelyInputtedNumberTableViewCellModel] ?? []
-      return data
-    } catch {
-      print(error)
-      return []
+    let data = jsonString.data(using: .utf8)
+
+    if let data = data, let numberAndResult = try? decorder.decode(LatelyInputtedNumberTableViewCellModel.self, from: data) {
+      return numberAndResult
+    } else {
+      return nil
     }
   }
 
@@ -348,15 +361,17 @@ extension UpAndDownGameViewController: UITableViewDataSource {
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let cell = tableView.dequeueReusableCell(withIdentifier: "latelyNumberCell") ?? UITableViewCell(style: .value1, reuseIdentifier: "latelyNumberCell")
 
-    cell.textLabel?.text = "\(self.latelyInputNumberList[indexPath.row].number)"
-    cell.detailTextLabel?.text = "\(self.latelyInputNumberList[indexPath.row].result)"
+    let row = self.latelyInputNumberList[indexPath.row]
 
-    return cell
-  }
-}
+    let decodedResult = self.decodeFromJson(jsonString: row) ?? LatelyInputtedNumberTableViewCellModel(number: 0, result: "")
 
 extension UpAndDownGameViewController: UITableViewDelegate {
 
+    cell.textLabel?.text = "\(decodedResult.number)"
+    cell.detailTextLabel?.text = "\(decodedResult.result)"
+
+    return cell
+  }
 }
 
 extension UpAndDownGameViewController: InputNumberViewControllerDelegate {

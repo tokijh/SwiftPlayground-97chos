@@ -7,7 +7,7 @@
 
 import Foundation
 
-class LatelyInputtedNumberTableViewCellModel: NSObject, NSCoding {
+struct LatelyInputtedNumberTableViewCellModel: Codable  {
 
   var number: Int
   var result: String
@@ -17,13 +17,4 @@ class LatelyInputtedNumberTableViewCellModel: NSObject, NSCoding {
     self.result = result
   }
 
-  required init?(coder: NSCoder) {
-    self.number = coder.decodeInteger(forKey: "number")
-    self.result = coder.decodeObject(forKey: "result") as? String ?? ""
-  }
-
-  func encode(with coder: NSCoder) {
-    coder.encode(self.number, forKey: "number")
-    coder.encode(self.result, forKey: "result")
-  }
 }
