@@ -346,7 +346,7 @@ extension UpAndDownGameViewController: UITableViewDataSource {
   }
 
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    let cell = self.latelyInputNumberTableView.dequeueReusableCell(withIdentifier: "latelyNumberCell") ?? UITableViewCell(style: .value1, reuseIdentifier: "latelyNumberCell")
+    let cell = tableView.dequeueReusableCell(withIdentifier: "latelyNumberCell") ?? UITableViewCell(style: .value1, reuseIdentifier: "latelyNumberCell")
 
     cell.textLabel?.text = "\(self.latelyInputNumberList[indexPath.row].number)"
     cell.detailTextLabel?.text = "\(self.latelyInputNumberList[indexPath.row].result)"
