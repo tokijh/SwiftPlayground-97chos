@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct LatelyInputtedNumberTableViewCellModel: Codable  {
+struct LatelyResultLogsTableViewCellModel: Codable  {
 
   var number: Int
   var result: String

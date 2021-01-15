@@ -17,7 +17,7 @@ final class UpAndDownGameViewController: UIViewController {
   }
 
   private enum UserDefaultsKey {
-    static let inpuNumbers = "inputtedNumbers"
+    static let resultLogs = "resultLogs"
   }
 
   // MARK: Properties
@@ -39,7 +39,7 @@ final class UpAndDownGameViewController: UIViewController {
     }
   }
   private var isEarlySucceeded: Bool!
-  private lazy var latelyInputNumberList: [String] = [] {
+  private lazy var latelyResultLogsList: [String] = [] {
     didSet {
       self.saveToUserDefaults(self.latelyResultLogsList)
       if !(self.latelyResultLogsList.isEmpty) {
@@ -114,7 +114,7 @@ final class UpAndDownGameViewController: UIViewController {
     label.text = "최근 입력한 숫자"
     return label
   }()
-  private lazy var latelyInputNumberTableView: UITableView = {  // 하단에 표시될 최근 숫자 입력 테이블 뷰
+  private lazy var latelyResultLogsTableView: UITableView = {  // 하단에 표시될 최근 숫자 입력 테이블 뷰
     let tableView = UITableView()
     tableView.dataSource = self
     tableView.allowsSelection = false
@@ -135,8 +135,9 @@ final class UpAndDownGameViewController: UIViewController {
   }
 
   private func configureTableViewCell() {
-    self.latelyInputNumberTableView.register(LatelyResultCell.self, forCellReuseIdentifier: "latelyNumberCell")
+    self.latelyResultLogsTableView.register(LatelyResultCell.self, forCellReuseIdentifier: "latelyNumberCell")
   }
+
 
   // MARK: View Lifecycle
 
@@ -208,7 +209,7 @@ final class UpAndDownGameViewController: UIViewController {
       self.inputNumberStateLabel.text = resultText
     }
 
-    let resultData: LatelyInputtedNumberTableViewCellModel = LatelyInputtedNumberTableViewCellModel(number: number, result: resultText)
+    let resultData: LatelyResultLogsTableViewCellModel = LatelyResultLogsTableViewCellModel(number: number, result: resultText)
     appendLatelyInputNumberList(resultData)
   }
 
@@ -249,17 +250,17 @@ final class UpAndDownGameViewController: UIViewController {
                    })
   }
 
-  private func appendLatelyInputNumberList(_ resultData: LatelyInputtedNumberTableViewCellModel) {
+  private func appendLatelyInputNumberList(_ resultData: LatelyResultLogsTableViewCellModel) {
     let encodedData = self.encodeToJson(rawData: resultData)
-    self.latelyInputNumberList.append(encodedData)
-    self.latelyInputNumberTableView.reloadData()
+    self.latelyResultLogsList.append(encodedData)
+    self.latelyResultLogsTableView.reloadData()
   }
 
   private func saveToUserDefaults(_ list: [String]) {
-    UserDefaults.standard.setValue(list, forKey: UserDefaultsKey.inpuNumbers)
+    UserDefaults.standard.setValue(list, forKey: UserDefaultsKey.resultLogs)
   }
 
-  private func encodeToJson(rawData: LatelyInputtedNumberTableViewCellModel) -> String {
+  private func encodeToJson(rawData: LatelyResultLogsTableViewCellModel) -> String {
     let encorder = JSONEncoder()
 
     do {
@@ -273,12 +274,12 @@ final class UpAndDownGameViewController: UIViewController {
     }
   }
 
-  private func decodeFromJson(jsonString: String) -> LatelyInputtedNumberTableViewCellModel? {
+  private func decodeFromJson(jsonString: String) -> LatelyResultLogsTableViewCellModel? {
     let decorder = JSONDecoder()
 
     let data = jsonString.data(using: .utf8)
 
-    if let data = data, let numberAndResult = try? decorder.decode(LatelyInputtedNumberTableViewCellModel.self, from: data) {
+    if let data = data, let numberAndResult = try? decorder.decode(LatelyResultLogsTableViewCellModel.self, from: data) {
       return numberAndResult
     } else {
       return nil
@@ -296,7 +297,7 @@ final class UpAndDownGameViewController: UIViewController {
     self.view.addSubview(self.inputNumberStateLabel)
     self.view.addSubview(self.inputCountLabel)
     self.view.addSubview(self.button)
-    self.view.addSubview(self.latelyInputNumberTableView)
+    self.view.addSubview(self.latelyResultLogsTableView)
     self.view.addSubview(self.tableViewTitle)
     self.view.addSubview(self.earlySuccessView)
 
@@ -340,7 +341,7 @@ final class UpAndDownGameViewController: UIViewController {
       $0.top.equalTo(self.descriptionLabel.snp.bottom).offset(240)
       $0.leading.equalTo(self.descriptionLabel)
     }
-    self.latelyInputNumberTableView.snp.makeConstraints {
+    self.latelyResultLogsTableView.snp.makeConstraints {
       $0.top.equalTo(self.tableViewTitle.snp.bottom)
       $0.leading.trailing.equalToSuperview().inset(20)
       $0.bottom.equalTo(self.button.snp.top).offset(-20)
@@ -357,14 +358,14 @@ final class UpAndDownGameViewController: UIViewController {
 
 extension UpAndDownGameViewController: UITableViewDataSource {
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return self.latelyInputNumberList.count
+    return self.latelyResultLogsList.count
   }
 
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
-    let row = self.latelyInputNumberList[indexPath.row]
+    let row = self.latelyResultLogsList[indexPath.row]
 
-    let decodedResult = self.decodeFromJson(jsonString: row) ?? LatelyInputtedNumberTableViewCellModel(number: 0, result: "")
+    let decodedResult = self.decodeFromJson(jsonString: row) ?? LatelyResultLogsTableViewCellModel(number: 0, result: "")
 
     let cell = tableView.dequeueReusableCell(withIdentifier: "latelyNumberCell") ?? UITableViewCell()
 
