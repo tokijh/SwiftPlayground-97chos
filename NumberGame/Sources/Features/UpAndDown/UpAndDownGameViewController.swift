@@ -39,7 +39,7 @@ final class UpAndDownGameViewController: UIViewController {
     }
   }
   private var isEarlySucceeded: Bool!
-  private lazy var latelyInputNumberList: [String] = self.loadFromUserDefaults() {
+  private lazy var latelyInputNumberList: [String] = [] {
     didSet {
       self.saveToUserDefaults(self.latelyInputNumberList)
     }
@@ -257,10 +257,6 @@ final class UpAndDownGameViewController: UIViewController {
 
   private func saveToUserDefaults(_ list: [String]) {
     UserDefaults.standard.setValue(list, forKey: UserDefaultsKey.inpuNumbers)
-  }
-
-  private func loadFromUserDefaults() -> [String] {
-    UserDefaults.standard.value(forKey: UserDefaultsKey.inpuNumbers) as? [String] ?? []
   }
 
   private func encodeToJson(rawData: LatelyInputtedNumberTableViewCellModel) -> String {
