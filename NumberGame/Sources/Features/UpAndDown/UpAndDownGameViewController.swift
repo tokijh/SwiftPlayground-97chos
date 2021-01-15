@@ -109,11 +109,10 @@ final class UpAndDownGameViewController: UIViewController {
     return label
   }()
   private lazy var latelyInputNumberTableView: UITableView = {  // 하단에 표시될 최근 숫자 입력 테이블 뷰
-    let tv = UITableView()
-    tv.dataSource = self
-    tv.delegate = self
-    tv.allowsSelection = false
-    return tv
+    let tableView = UITableView()
+    tableView.dataSource = self
+    tableView.allowsSelection = false
+    return tableView
   }()
 
 
@@ -122,12 +121,16 @@ final class UpAndDownGameViewController: UIViewController {
   private func configure() {
     self.title = "Up & Down"
     self.configureButton()
+    self.configureTableViewCell()
   }
 
   private func configureButton() {
     self.button.addTarget(self, action: #selector(self.didTapButton), for: .touchUpInside)
   }
 
+  private func configureTableViewCell() {
+    self.latelyInputNumberTableView.register(LatelyResultCell.self, forCellReuseIdentifier: "latelyNumberCell")
+  }
 
   // MARK: View Lifecycle
 
@@ -203,7 +206,7 @@ final class UpAndDownGameViewController: UIViewController {
     }
 
     let resultData: LatelyInputtedNumberTableViewCellModel = LatelyInputtedNumberTableViewCellModel(number: number, result: resultText)
-    appendlatelyInputNumberList(resultData)
+    appendLatelyInputNumberList(resultData)
   }
 
   private func setEndGame() {
@@ -359,13 +362,12 @@ extension UpAndDownGameViewController: UITableViewDataSource {
   }
 
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    let cell = tableView.dequeueReusableCell(withIdentifier: "latelyNumberCell") ?? UITableViewCell(style: .value1, reuseIdentifier: "latelyNumberCell")
 
     let row = self.latelyInputNumberList[indexPath.row]
 
     let decodedResult = self.decodeFromJson(jsonString: row) ?? LatelyInputtedNumberTableViewCellModel(number: 0, result: "")
 
-extension UpAndDownGameViewController: UITableViewDelegate {
+    let cell = tableView.dequeueReusableCell(withIdentifier: "latelyNumberCell") ?? UITableViewCell()
 
     cell.textLabel?.text = "\(decodedResult.number)"
     cell.detailTextLabel?.text = "\(decodedResult.result)"
