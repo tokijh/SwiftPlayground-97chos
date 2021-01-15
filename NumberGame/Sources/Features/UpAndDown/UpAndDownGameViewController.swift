@@ -41,10 +41,13 @@ final class UpAndDownGameViewController: UIViewController {
   private var isEarlySucceeded: Bool!
   private lazy var latelyInputNumberList: [String] = [] {
     didSet {
-      self.saveToUserDefaults(self.latelyInputNumberList)
+      self.saveToUserDefaults(self.latelyResultLogsList)
+      if !(self.latelyResultLogsList.isEmpty) {
+        self.latelyResultLogsTableView.isHidden = false
+        self.tableViewTitle.isHidden = false
+      }
     }
   }
-  private var isFirstRound: Bool = true
 
 
   // MARK: UI
@@ -157,12 +160,6 @@ final class UpAndDownGameViewController: UIViewController {
       self.present(viewController, animated: true)
       self.earlySuccessView.alpha = 0
 
-      if self.isFirstRound {
-        self.isFirstRound = false
-        self.latelyInputNumberList = []
-        self.latelyInputNumberTableView.reloadData()
-      }
-
     case .end:
       if self.isEarlySucceeded {
         self.earlySuccessViewHide(view: earlySuccessView)
@@ -185,10 +182,13 @@ final class UpAndDownGameViewController: UIViewController {
     self.inputNumberStateLabel.text = "❓"
     self.inputCountLabel.text = nil
     self.button.setTitle("입력하기", for: .normal)
-    self.isFirstRound = true
 
     self.earlySuccessViewHide(view: self.earlySuccessView)
     self.isEarlySucceeded = false
+
+    self.latelyResultLogsTableView.isHidden = true
+    self.tableViewTitle.isHidden = true
+    
   }
 
   private func confirmAnswer(number: Int) {
