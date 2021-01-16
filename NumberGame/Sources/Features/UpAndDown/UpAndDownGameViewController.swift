@@ -189,7 +189,6 @@ final class UpAndDownGameViewController: UIViewController {
 
     self.latelyResultLogsTableView.isHidden = true
     self.tableViewTitle.isHidden = true
-    
   }
 
   private func confirmAnswer(number: Int) {
@@ -269,8 +268,6 @@ final class UpAndDownGameViewController: UIViewController {
         return ""
       }
       return jsonString
-    } catch {
-      return ""
     }
   }
 
