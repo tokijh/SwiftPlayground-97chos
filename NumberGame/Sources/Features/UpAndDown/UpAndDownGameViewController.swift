@@ -262,25 +262,23 @@ final class UpAndDownGameViewController: UIViewController {
   private func encodeToJson(rawData: LatelyResultLogsTableViewCellModel) -> String {
     let encorder = JSONEncoder()
 
-    do {
-      let encodedData = try? encorder.encode(rawData)
-      guard let jsonData = encodedData, let jsonString = String(data: jsonData, encoding: .utf8) else {
-        return ""
-      }
-      return jsonString
+    let encodedData = try? encorder.encode(rawData)
+
+    guard let jsonData = encodedData, let jsonString = String(data: jsonData, encoding: .utf8) else {
+      return ""
     }
+    return jsonString
   }
 
   private func decodeFromJson(jsonString: String) -> LatelyResultLogsTableViewCellModel? {
     let decorder = JSONDecoder()
 
-    let data = jsonString.data(using: .utf8)
+    let optData = jsonString.data(using: .utf8)
 
-    if let data = data, let numberAndResult = try? decorder.decode(LatelyResultLogsTableViewCellModel.self, from: data) {
-      return numberAndResult
-    } else {
+    guard let data = optData, let numberAndResult = try? decorder.decode(LatelyResultLogsTableViewCellModel.self, from: data) else {
       return nil
     }
+    return numberAndResult
   }
 
 
