@@ -39,7 +39,7 @@ final class UpAndDownGameViewController: UIViewController {
     }
   }
   private var isEarlySucceeded: Bool!
-  private lazy var latelyResultLogsList: [String] = [] {
+  private lazy var latelyResultLogsList: [LatelyResultLogsTableViewCellModel] = [] {
     didSet {
       self.saveToUserDefaults(self.latelyResultLogsList)
       if !(self.latelyResultLogsList.isEmpty) {
@@ -166,6 +166,7 @@ final class UpAndDownGameViewController: UIViewController {
         self.earlySuccessViewHide(view: earlySuccessView)
       } else {
         self.resetGame()
+        self.clearData()
       }
     }
   }
@@ -250,13 +251,18 @@ final class UpAndDownGameViewController: UIViewController {
   }
 
   private func appendLatelyInputNumberList(_ resultData: LatelyResultLogsTableViewCellModel) {
-    let encodedData = self.encodeToJson(rawData: resultData)
-    self.latelyResultLogsList.append(encodedData)
+    self.latelyResultLogsList.append(resultData)
     self.latelyResultLogsTableView.reloadData()
   }
 
-  private func saveToUserDefaults(_ list: [String]) {
-    UserDefaults.standard.setValue(list, forKey: UserDefaultsKey.resultLogs)
+  private func saveToUserDefaults(_ list: [LatelyResultLogsTableViewCellModel]) {
+    let encodedList = list.map { self.encodeToJson(rawData: $0) }
+    UserDefaults.standard.setValue(encodedList, forKey: UserDefaultsKey.resultLogs)
+  }
+
+  private func loadFromUserDefaults() -> [LatelyResultLogsTableViewCellModel]  {
+    let list = UserDefaults.standard.value(forKey: UserDefaultsKey.resultLogs) as? [String] ?? []
+    return list.map{ (self.decodeFromJson(jsonString: $0) ?? LatelyResultLogsTableViewCellModel(number: 0, result: "")) }
   }
 
   private func encodeToJson(rawData: LatelyResultLogsTableViewCellModel) -> String {
@@ -279,6 +285,10 @@ final class UpAndDownGameViewController: UIViewController {
       return nil
     }
     return numberAndResult
+  }
+
+  private func clearData() {
+    self.latelyResultLogsList = []
   }
 
 
@@ -360,12 +370,10 @@ extension UpAndDownGameViewController: UITableViewDataSource {
 
     let row = self.latelyResultLogsList[indexPath.row]
 
-    let decodedResult = self.decodeFromJson(jsonString: row) ?? LatelyResultLogsTableViewCellModel(number: 0, result: "")
-
     let cell = tableView.dequeueReusableCell(withIdentifier: "latelyNumberCell") ?? UITableViewCell()
 
-    cell.textLabel?.text = "\(decodedResult.number)"
-    cell.detailTextLabel?.text = "\(decodedResult.result)"
+    cell.textLabel?.text = "\(row.number)"
+    cell.detailTextLabel?.text = "\(row.result)"
 
     return cell
   }
