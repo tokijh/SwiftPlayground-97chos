@@ -12,9 +12,4 @@ struct LatelyResultLogsTableViewCellModel: Codable  {
   var number: Int
   var result: String
 
-  init(number: Int, result: String) {
-    self.number = number
-    self.result = result
-  }
-
 }
