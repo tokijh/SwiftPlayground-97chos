@@ -23,6 +23,7 @@
 		FF83C27225AB62DB0020E7EC /* NumberGameInputLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF83C27125AB62DB0020E7EC /* NumberGameInputLog.swift */; };
 		FFE267F125B5D02E0099549A /* ScoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFE267F025B5D02E0099549A /* ScoreViewController.swift */; };
 		FFE267F525B5D1020099549A /* ScoreCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFE267F425B5D1020099549A /* ScoreCell.swift */; };
+		FFE267F925B5D5EC0099549A /* ScoreLogsDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = FFE267F725B5D5EC0099549A /* ScoreLogsDataModel.xcdatamodeld */; };
 		FFEF4EAD25B206C7006B4F03 /* LatelyResultCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFEF4EAC25B206C7006B4F03 /* LatelyResultCell.swift */; };
 /* End PBXBuildFile section */
 
@@ -47,6 +48,7 @@
 		FF83C27125AB62DB0020E7EC /* NumberGameInputLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberGameInputLog.swift; sourceTree = "<group>"; };
 		FFE267F025B5D02E0099549A /* ScoreViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreViewController.swift; sourceTree = "<group>"; };
 		FFE267F425B5D1020099549A /* ScoreCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreCell.swift; sourceTree = "<group>"; };
+		FFE267F825B5D5EC0099549A /* ScoreLogsDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ScoreLogsDataModel.xcdatamodel; sourceTree = "<group>"; };
 		FFEF4EAC25B206C7006B4F03 /* LatelyResultCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LatelyResultCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -166,6 +168,7 @@
 				60DCA7B6258B4E97009BD9B4 /* Assets.xcassets */,
 				60DCA7BB258B4E97009BD9B4 /* Info.plist */,
 				60DCA7B8258B4E97009BD9B4 /* LaunchScreen.storyboard */,
+				FFE267F725B5D5EC0099549A /* ScoreLogsDataModel.xcdatamodeld */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -355,6 +358,7 @@
 				FFE267F125B5D02E0099549A /* ScoreViewController.swift in Sources */,
 				60DCB0022590E5E9009BD9B4 /* GameListViewController.swift in Sources */,
 				606416F525A6EBE9004ED168 /* InputNumberViewController.swift in Sources */,
+				FFE267F925B5D5EC0099549A /* ScoreLogsDataModel.xcdatamodeld in Sources */,
 				60DCA7B0258B4E94009BD9B4 /* SceneDelegate.swift in Sources */,
 				609257A225A8F16600D407B0 /* UIImageFromUIColor.swift in Sources */,
 				603486F3259106840060EF0C /* UpAndDownGameViewController.swift in Sources */,
@@ -555,6 +559,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		FFE267F725B5D5EC0099549A /* ScoreLogsDataModel.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				FFE267F825B5D5EC0099549A /* ScoreLogsDataModel.xcdatamodel */,
+			);
+			currentVersion = FFE267F825B5D5EC0099549A /* ScoreLogsDataModel.xcdatamodel */;
+			path = ScoreLogsDataModel.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 60DCA7A2258B4E94009BD9B4 /* Project object */;
 }
