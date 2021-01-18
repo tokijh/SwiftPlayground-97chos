@@ -11,7 +11,7 @@
         <relationship name="logs" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Log" inverseName="score" inverseEntity="Log"/>
     </entity>
     <elements>
-        <element name="Score" positionX="-63" positionY="-18" width="128" height="74"/>
         <element name="Log" positionX="-54" positionY="9" width="128" height="74"/>
+        <element name="Score" positionX="-63" positionY="-18" width="128" height="74"/>
     </elements>
 </model>

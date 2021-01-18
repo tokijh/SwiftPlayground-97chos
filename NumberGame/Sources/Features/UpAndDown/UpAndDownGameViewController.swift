@@ -6,10 +6,16 @@
 //
 
 import UIKit
+import CoreData
 
 final class UpAndDownGameViewController: UIViewController {
 
   // MARK: Module
+
+  private enum Entity {
+    static let score = "Score"
+    static let log = "Log"
+  }
 
   private enum GameState {
     case playing
@@ -238,6 +244,8 @@ final class UpAndDownGameViewController: UIViewController {
     self.inputNumberStateLabel.text = "💯"
     self.inputCountLabel.text = "\(self.inputCount)번 만에 성공!"
 
+    self.saveScoreToCoreData(inputCount: self.inputCount)
+
     self.button.setTitle("다시 시작", for: .normal)
   }
 
@@ -303,6 +311,60 @@ final class UpAndDownGameViewController: UIViewController {
 
   private func clearData() {
     self.latelyResultLogsList = []
+  }
+
+  private func loadContext() -> NSManagedObjectContext {
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+    let context = appDelegate.persistentContainer.viewContext
+
+    return context
+  }
+
+  private func changeDateToString() -> String {
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateFormat = "yyyy년 MM월 dd일 HH:mm"
+
+    return dateFormatter.string(from: Date())
+  }
+
+  private func saveScoreToCoreData(inputCount: Int) {
+
+    let context = self.loadContext()
+
+    guard let ScoreObject = NSEntityDescription.insertNewObject(forEntityName: Entity.score, into: context) as? ScoreMO else {
+      return
+    }
+
+    ScoreObject.date = self.changeDateToString()
+    ScoreObject.inputCount = Int64(inputCount)
+
+    self.saveLogsToCoreData(ScoreObject: ScoreObject)
+
+    do {
+      try context.save()
+    } catch {
+      context.rollback()
+    }
+  }
+
+  private func addLogToScoreObject(result: NumberGameInputLog, context: NSManagedObjectContext ,ScoreObject: ScoreMO) {
+
+    guard let logObject = NSEntityDescription.insertNewObject(forEntityName: Entity.log, into: context) as? LogMO else {
+      return
+    }
+
+    logObject.result = result.result
+    logObject.inputtedNumber = Int64(result.inputNumber)
+
+    ScoreObject.addToLogs(logObject)
+  }
+
+  private func saveLogsToCoreData(ScoreObject: ScoreMO) {
+    let context = self.loadContext()
+
+    for row in self.latelyResultLogsList {
+      self.addLogToScoreObject(result: row, context: context ,ScoreObject: ScoreObject)
+    }
   }
 
 

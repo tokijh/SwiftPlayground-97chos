@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import CoreData
 
 @main class AppDelegate: UIResponder, UIApplicationDelegate {
 
@@ -27,5 +28,29 @@ import UIKit
       name: "Default Configuration",
       sessionRole: connectingSceneSession.role
     )
+  }
+
+
+  // MARK: CoreData
+
+  lazy var persistentContainer: NSPersistentContainer = {
+    let container = NSPersistentContainer(name: "ScoreLogsDataModel")
+    container.loadPersistentStores {
+      if let error = $1 as NSError? {
+        fatalError("Unresolved srror \(error), \(error.userInfo)")
+      }
+    }
+    return container
+  }()
+
+  func saveContext() {
+    let context = persistentContainer.viewContext
+    if context.hasChanges {
+      do {
+        try context.save()
+      } catch let error as NSError {
+        fatalError("Unresolved error \(error), \(error.userInfo)")
+      }
+    }
   }
 }

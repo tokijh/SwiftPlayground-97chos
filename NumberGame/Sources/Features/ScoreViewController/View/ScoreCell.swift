@@ -27,6 +27,7 @@ class ScoreCell: UITableViewCell {
 
   private func configure() {
     self.selectionStyle = .none
+    self.accessoryType = .disclosureIndicator
   }
 
   func set(title: String, subTitle: String) {

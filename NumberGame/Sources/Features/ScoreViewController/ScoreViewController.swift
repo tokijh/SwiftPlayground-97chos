@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 import SnapKit
+import CoreData
 
 final class ScoreViewController: UIViewController {
 
@@ -21,7 +22,9 @@ final class ScoreViewController: UIViewController {
 
   // MARK: Properties
 
-  private lazy var scoreList: [String] = []
+  private lazy var scoreList: [ScoreMO] = {
+    self.fetch()
+  }()
 
 
   // MARK: UI
@@ -42,6 +45,24 @@ final class ScoreViewController: UIViewController {
     self.tableView.register(ScoreCell.self, forCellReuseIdentifier: ReuseIdentifier.scoreCell)
     self.tableView.delegate = self
     self.tableView.dataSource = self
+  }
+
+
+  // MARK: Functions
+
+  private func fetch() -> [ScoreMO] {
+
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+    let context = appDelegate.persistentContainer.viewContext
+
+    let fetchRequest: NSFetchRequest<ScoreMO> = ScoreMO.fetchRequest()
+
+    do {
+      let result = try context.fetch(fetchRequest)
+      return result
+    } catch {
+      return []
+    }
   }
 
 
@@ -71,7 +92,13 @@ extension ScoreViewController: UITableViewDataSource {
 
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
-    let cell = tableView.dequeueReusableCell(withIdentifier: ReuseIdentifier.scoreCell) ?? UITableViewCell()
+    let row = self.scoreList[indexPath.row]
+
+    guard let cell = tableView.dequeueReusableCell(withIdentifier: ReuseIdentifier.scoreCell) as? ScoreCell else {
+      return UITableViewCell()
+    }
+
+    cell.set(title: "\(row.date ?? "")의 게임", subTitle: "\(row.inputCount)회 시도")
 
     return cell
   }
