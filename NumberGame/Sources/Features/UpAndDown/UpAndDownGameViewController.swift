@@ -120,6 +120,10 @@ final class UpAndDownGameViewController: UIViewController {
     tableView.allowsSelection = false
     return tableView
   }()
+  private lazy var scoreButton: UIBarButtonItem = {
+    let barButton = UIBarButtonItem(title: "Score", style: .plain, target: self, action: #selector(self.didTapScoreButton))
+    return barButton
+  }()
 
 
   // MARK: Configuring
@@ -128,6 +132,7 @@ final class UpAndDownGameViewController: UIViewController {
     self.title = "Up & Down"
     self.configureButton()
     self.configureTableViewCell()
+    self.configureNavigationButton()
   }
 
   private func configureButton() {
@@ -136,6 +141,10 @@ final class UpAndDownGameViewController: UIViewController {
 
   private func configureTableViewCell() {
     self.latelyResultLogsTableView.register(LatelyResultCell.self, forCellReuseIdentifier: "latelyNumberCell")
+  }
+
+  private func configureNavigationButton() {
+    self.navigationItem.rightBarButtonItem = self.scoreButton
   }
 
 
@@ -169,6 +178,11 @@ final class UpAndDownGameViewController: UIViewController {
         self.clearData()
       }
     }
+  }
+
+  @objc private func didTapScoreButton() {
+    let scoreViewController = ScoreViewController()
+    self.navigationController?.pushViewController(scoreViewController, animated: true)
   }
 
 
