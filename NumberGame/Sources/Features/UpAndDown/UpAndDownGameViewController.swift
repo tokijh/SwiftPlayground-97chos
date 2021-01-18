@@ -16,6 +16,10 @@ final class UpAndDownGameViewController: UIViewController {
     case end
   }
 
+  private enum UserDefaultsKey {
+    static let resultLogs = "resultLogs"
+  }
+
   // MARK: Properties
 
   private var gameState: GameState = .playing
@@ -35,6 +39,15 @@ final class UpAndDownGameViewController: UIViewController {
     }
   }
   private var isEarlySucceeded: Bool!
+  private lazy var latelyResultLogsList: [NumberGameInputLog] = [] {
+    didSet {
+      self.saveToUserDefaults(self.latelyResultLogsList)
+      if !(self.latelyResultLogsList.isEmpty) {
+        self.latelyResultLogsTableView.isHidden = false
+        self.tableViewTitle.isHidden = false
+      }
+    }
+  }
 
 
   // MARK: UI
@@ -95,6 +108,18 @@ final class UpAndDownGameViewController: UIViewController {
     label.textAlignment = .center
     return label
   }()
+  private lazy var tableViewTitle: UILabel = {  // 테이블 뷰 상단에 노출될 타이틀 라벨
+    let label = UILabel()
+    label.font = UIFont.preferredFont(forTextStyle: .subheadline)
+    label.text = "최근 입력한 숫자"
+    return label
+  }()
+  private lazy var latelyResultLogsTableView: UITableView = {  // 하단에 표시될 최근 숫자 입력 테이블 뷰
+    let tableView = UITableView()
+    tableView.dataSource = self
+    tableView.allowsSelection = false
+    return tableView
+  }()
 
 
   // MARK: Configuring
@@ -102,10 +127,15 @@ final class UpAndDownGameViewController: UIViewController {
   private func configure() {
     self.title = "Up & Down"
     self.configureButton()
+    self.configureTableViewCell()
   }
 
   private func configureButton() {
     self.button.addTarget(self, action: #selector(self.didTapButton), for: .touchUpInside)
+  }
+
+  private func configureTableViewCell() {
+    self.latelyResultLogsTableView.register(LatelyResultCell.self, forCellReuseIdentifier: "latelyNumberCell")
   }
 
 
@@ -136,6 +166,7 @@ final class UpAndDownGameViewController: UIViewController {
         self.earlySuccessViewHide(view: earlySuccessView)
       } else {
         self.resetGame()
+        self.clearData()
       }
     }
   }
@@ -156,19 +187,30 @@ final class UpAndDownGameViewController: UIViewController {
 
     self.earlySuccessViewHide(view: self.earlySuccessView)
     self.isEarlySucceeded = false
+
+    self.latelyResultLogsTableView.isHidden = true
+    self.tableViewTitle.isHidden = true
   }
 
   private func confirmAnswer(number: Int) {
     self.lastInputNumber = number
     self.inputCount += 1
 
+    var resultText: String!
+
     if self.answer == number {
       self.setEndGame()
+      resultText = "🙆‍♀️🙆‍♂️"
     } else if number < self.answer {
-      self.inputNumberStateLabel.text = "Up 👍"
+      resultText = "Up 👍"
+      self.inputNumberStateLabel.text = resultText
     } else if number > self.answer {
-      self.inputNumberStateLabel.text = "Down 👎"
+      resultText = "Down 👎"
+      self.inputNumberStateLabel.text = resultText
     }
+
+    let resultData: NumberGameInputLog = NumberGameInputLog(inputNumber: number, result: resultText)
+    appendLatelyInputNumberList(resultData)
   }
 
   private func setEndGame() {
@@ -199,7 +241,6 @@ final class UpAndDownGameViewController: UIViewController {
   }
 
   private func earlySuccessViewHide(view: UIView, delay: TimeInterval = 0) {
-
     UIView.animate(withDuration: 0.7,
                    delay: delay,
                    options: .curveEaseIn,
@@ -207,6 +248,47 @@ final class UpAndDownGameViewController: UIViewController {
                     view.transform = CGAffineTransform.init(translationX: 0, y: self.view.bounds.height)
                     view.alpha = 0
                    })
+  }
+
+  private func appendLatelyInputNumberList(_ resultData: NumberGameInputLog) {
+    self.latelyResultLogsList.append(resultData)
+    self.latelyResultLogsTableView.reloadData()
+  }
+
+  private func saveToUserDefaults(_ list: [NumberGameInputLog]) {
+    let encodedList = list.map { self.encodeToJson(rawData: $0) }
+    UserDefaults.standard.setValue(encodedList, forKey: UserDefaultsKey.resultLogs)
+  }
+
+  private func loadFromUserDefaults() -> [NumberGameInputLog]  {
+    let list = UserDefaults.standard.value(forKey: UserDefaultsKey.resultLogs) as? [String] ?? []
+    return list.compactMap{ self.decodeFromJson(jsonString: $0) }
+  }
+
+  private func encodeToJson(rawData: NumberGameInputLog) -> String {
+    let encorder = JSONEncoder()
+
+    let encodedData = try? encorder.encode(rawData)
+
+    guard let jsonData = encodedData, let jsonString = String(data: jsonData, encoding: .utf8) else {
+      return ""
+    }
+    return jsonString
+  }
+
+  private func decodeFromJson(jsonString: String) -> NumberGameInputLog? {
+    let decorder = JSONDecoder()
+
+    let optData = jsonString.data(using: .utf8)
+
+    guard let data = optData, let numberAndResult = try? decorder.decode(NumberGameInputLog.self, from: data) else {
+      return nil
+    }
+    return numberAndResult
+  }
+
+  private func clearData() {
+    self.latelyResultLogsList = []
   }
 
 
@@ -220,6 +302,8 @@ final class UpAndDownGameViewController: UIViewController {
     self.view.addSubview(self.inputNumberStateLabel)
     self.view.addSubview(self.inputCountLabel)
     self.view.addSubview(self.button)
+    self.view.addSubview(self.latelyResultLogsTableView)
+    self.view.addSubview(self.tableViewTitle)
     self.view.addSubview(self.earlySuccessView)
 
     self.earlySuccessView.addSubview(self.earlySuccessIcon)
@@ -258,6 +342,15 @@ final class UpAndDownGameViewController: UIViewController {
       $0.bottom.equalToSuperview().inset(10)
       $0.centerX.equalToSuperview()
     }
+    self.tableViewTitle.snp.makeConstraints {
+      $0.top.equalTo(self.descriptionLabel.snp.bottom).offset(240)
+      $0.leading.equalTo(self.descriptionLabel)
+    }
+    self.latelyResultLogsTableView.snp.makeConstraints {
+      $0.top.equalTo(self.tableViewTitle.snp.bottom)
+      $0.leading.trailing.equalToSuperview().inset(20)
+      $0.bottom.equalTo(self.button.snp.top).offset(-20)
+    }
     self.button.snp.makeConstraints {
       $0.width.equalToSuperview()
       $0.height.equalTo(56 + windowSafeAreaInsets.bottom)
@@ -266,6 +359,24 @@ final class UpAndDownGameViewController: UIViewController {
     self.button.contentEdgeInsets.bottom = windowSafeAreaInsets.bottom
   }
 
+}
+
+extension UpAndDownGameViewController: UITableViewDataSource {
+  func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    return self.latelyResultLogsList.count
+  }
+
+  func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+
+    let row = self.latelyResultLogsList[indexPath.row]
+
+    let cell = tableView.dequeueReusableCell(withIdentifier: "latelyNumberCell") ?? UITableViewCell()
+
+    cell.textLabel?.text = "\(row.inputNumber)"
+    cell.detailTextLabel?.text = "\(row.result)"
+
+    return cell
+  }
 }
 
 extension UpAndDownGameViewController: InputNumberViewControllerDelegate {

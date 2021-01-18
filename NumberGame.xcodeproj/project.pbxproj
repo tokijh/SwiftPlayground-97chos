@@ -20,6 +20,8 @@
 		60DCB0022590E5E9009BD9B4 /* GameListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60DCB0012590E5E9009BD9B4 /* GameListViewController.swift */; };
 		87A6F1EAF8FD7339273E9688 /* Pods_NumberGame.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B5630E1C8B110FDEBD954711 /* Pods_NumberGame.framework */; };
 		FF83C26A25AA3E920020E7EC /* UIColor+Init.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF83C26925AA3E920020E7EC /* UIColor+Init.swift */; };
+		FF83C27225AB62DB0020E7EC /* NumberGameInputLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF83C27125AB62DB0020E7EC /* NumberGameInputLog.swift */; };
+		FFEF4EAD25B206C7006B4F03 /* LatelyResultCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFEF4EAC25B206C7006B4F03 /* LatelyResultCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,6 +42,8 @@
 		A296999119637D2B3535F749 /* Pods-NumberGame.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NumberGame.debug.xcconfig"; path = "Target Support Files/Pods-NumberGame/Pods-NumberGame.debug.xcconfig"; sourceTree = "<group>"; };
 		B5630E1C8B110FDEBD954711 /* Pods_NumberGame.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_NumberGame.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FF83C26925AA3E920020E7EC /* UIColor+Init.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Init.swift"; sourceTree = "<group>"; };
+		FF83C27125AB62DB0020E7EC /* NumberGameInputLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberGameInputLog.swift; sourceTree = "<group>"; };
+		FFEF4EAC25B206C7006B4F03 /* LatelyResultCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LatelyResultCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,7 +79,9 @@
 		603486F1259106750060EF0C /* UpAndDown */ = {
 			isa = PBXGroup;
 			children = (
+				FFEF4EAB25B206AB006B4F03 /* View */,
 				603486F2259106840060EF0C /* UpAndDownGameViewController.swift */,
+				FF83C27125AB62DB0020E7EC /* NumberGameInputLog.swift */,
 			);
 			path = UpAndDown;
 			sourceTree = "<group>";
@@ -195,6 +201,14 @@
 				0BE6DD22B5D21258449E3469 /* Pods-NumberGame.release.xcconfig */,
 			);
 			path = Pods;
+			sourceTree = "<group>";
+		};
+		FFEF4EAB25B206AB006B4F03 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				FFEF4EAC25B206C7006B4F03 /* LatelyResultCell.swift */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -320,6 +334,8 @@
 				60DCA7B0258B4E94009BD9B4 /* SceneDelegate.swift in Sources */,
 				609257A225A8F16600D407B0 /* UIImageFromUIColor.swift in Sources */,
 				603486F3259106840060EF0C /* UpAndDownGameViewController.swift in Sources */,
+				FF83C27225AB62DB0020E7EC /* NumberGameInputLog.swift in Sources */,
+				FFEF4EAD25B206C7006B4F03 /* LatelyResultCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
