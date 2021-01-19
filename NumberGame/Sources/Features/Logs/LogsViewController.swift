@@ -44,6 +44,7 @@ class LogsViewController: UIViewController {
   private func configureTableView() {
     self.tableView.register(LogCell.self, forCellReuseIdentifier: ReuseIdentifier.Logcell)
     self.tableView.dataSource = self
+    self.tableView.tableFooterView = UIView()
   }
 
 
