@@ -85,6 +85,15 @@ final class ScoreViewController: UIViewController {
   }
 }
 
+extension ScoreViewController {
+  private func moveToLogView(score: ScoreMO) {
+    let logView = LogsViewController()
+    logView.score = score
+
+    self.navigationController?.pushViewController(logView, animated: true)
+  }
+}
+
 extension ScoreViewController: UITableViewDataSource {
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     return self.scoreList.count
@@ -105,7 +114,11 @@ extension ScoreViewController: UITableViewDataSource {
 }
 
 extension ScoreViewController: UITableViewDelegate {
+  func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    let scoreObject = self.scoreList[indexPath.row]
 
+    self.moveToLogView(score: scoreObject)
+  }
 }
   
 
