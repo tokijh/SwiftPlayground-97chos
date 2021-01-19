@@ -219,18 +219,18 @@ final class UpAndDownGameViewController: UIViewController {
     var resultText: String!
 
     if self.answer == number {
-      self.setEndGame()
       resultText = "🙆‍♀️🙆‍♂️"
+      self.makeResultData(number: lastInputNumber ?? 0, result: resultText)
+      self.setEndGame()
     } else if number < self.answer {
       resultText = "Up 👍"
       self.inputNumberStateLabel.text = resultText
+      self.makeResultData(number: lastInputNumber ?? 0, result: resultText)
     } else if number > self.answer {
       resultText = "Down 👎"
       self.inputNumberStateLabel.text = resultText
+      self.makeResultData(number: lastInputNumber ?? 0, result: resultText)
     }
-
-    let resultData: NumberGameInputLog = NumberGameInputLog(inputNumber: number, result: resultText)
-    appendLatelyInputNumberList(resultData)
   }
 
   private func setEndGame() {
@@ -270,6 +270,11 @@ final class UpAndDownGameViewController: UIViewController {
                     view.transform = CGAffineTransform.init(translationX: 0, y: self.view.bounds.height)
                     view.alpha = 0
                    })
+  }
+
+  private func makeResultData(number: Int, result: String) {
+    let resultData: NumberGameInputLog = NumberGameInputLog(inputNumber: number, result: result)
+    appendLatelyInputNumberList(resultData)
   }
 
   private func appendLatelyInputNumberList(_ resultData: NumberGameInputLog) {
