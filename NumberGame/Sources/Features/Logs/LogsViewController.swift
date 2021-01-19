@@ -35,7 +35,7 @@ class LogsViewController: UIViewController {
   // MARK: Configuring
 
   private func configureViews() {
-    self.title = "\(self.score.date ?? "")의 게임"
+    self.title = self.score.date?.dateTransformToTitle()
     self.view.backgroundColor = .systemBackground
     self.configureTableView()
     self.layoutViews()

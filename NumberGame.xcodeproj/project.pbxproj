@@ -26,6 +26,7 @@
 		FFE267F925B5D5EC0099549A /* ScoreLogsDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = FFE267F725B5D5EC0099549A /* ScoreLogsDataModel.xcdatamodeld */; };
 		FFE2680425B679320099549A /* LogsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFE2680325B679320099549A /* LogsViewController.swift */; };
 		FFE2680925B67DC30099549A /* LogCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFE2680825B67DC30099549A /* LogCell.swift */; };
+		FFE2680D25B687C80099549A /* String+DateTransformToTitle.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFE2680C25B687C80099549A /* String+DateTransformToTitle.swift */; };
 		FFEF4EAD25B206C7006B4F03 /* LatelyResultCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFEF4EAC25B206C7006B4F03 /* LatelyResultCell.swift */; };
 /* End PBXBuildFile section */
 
@@ -53,6 +54,7 @@
 		FFE267F825B5D5EC0099549A /* ScoreLogsDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ScoreLogsDataModel.xcdatamodel; sourceTree = "<group>"; };
 		FFE2680325B679320099549A /* LogsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogsViewController.swift; sourceTree = "<group>"; };
 		FFE2680825B67DC30099549A /* LogCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogCell.swift; sourceTree = "<group>"; };
+		FFE2680C25B687C80099549A /* String+DateTransformToTitle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+DateTransformToTitle.swift"; sourceTree = "<group>"; };
 		FFEF4EAC25B206C7006B4F03 /* LatelyResultCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LatelyResultCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -79,6 +81,7 @@
 		603486E62591008D0060EF0C /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				FFE2680B25B687AC0099549A /* String */,
 				606416F725A6ED90004ED168 /* Array */,
 				603486E72591009C0060EF0C /* Extensions.swift */,
 				609257A025A8F15000D407B0 /* UIImage */,
@@ -250,6 +253,14 @@
 			path = View;
 			sourceTree = "<group>";
 		};
+		FFE2680B25B687AC0099549A /* String */ = {
+			isa = PBXGroup;
+			children = (
+				FFE2680C25B687C80099549A /* String+DateTransformToTitle.swift */,
+			);
+			path = String;
+			sourceTree = "<group>";
+		};
 		FFEF4EAB25B206AB006B4F03 /* View */ = {
 			isa = PBXGroup;
 			children = (
@@ -382,6 +393,7 @@
 				FFE2680425B679320099549A /* LogsViewController.swift in Sources */,
 				60DCB0022590E5E9009BD9B4 /* GameListViewController.swift in Sources */,
 				606416F525A6EBE9004ED168 /* InputNumberViewController.swift in Sources */,
+				FFE2680D25B687C80099549A /* String+DateTransformToTitle.swift in Sources */,
 				FFE267F925B5D5EC0099549A /* ScoreLogsDataModel.xcdatamodeld in Sources */,
 				60DCA7B0258B4E94009BD9B4 /* SceneDelegate.swift in Sources */,
 				609257A225A8F16600D407B0 /* UIImageFromUIColor.swift in Sources */,
