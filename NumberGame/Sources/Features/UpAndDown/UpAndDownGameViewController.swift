@@ -287,11 +287,6 @@ final class UpAndDownGameViewController: UIViewController {
     UserDefaults.standard.setValue(encodedList, forKey: UserDefaultsKey.resultLogs)
   }
 
-  private func loadFromUserDefaults() -> [NumberGameInputLog]  {
-    let list = UserDefaults.standard.value(forKey: UserDefaultsKey.resultLogs) as? [String] ?? []
-    return list.compactMap{ self.decodeFromJson(jsonString: $0) }
-  }
-
   private func encodeToJson(rawData: NumberGameInputLog) -> String {
     let encorder = JSONEncoder()
 
@@ -301,17 +296,6 @@ final class UpAndDownGameViewController: UIViewController {
       return ""
     }
     return jsonString
-  }
-
-  private func decodeFromJson(jsonString: String) -> NumberGameInputLog? {
-    let decorder = JSONDecoder()
-
-    let optData = jsonString.data(using: .utf8)
-
-    guard let data = optData, let numberAndResult = try? decorder.decode(NumberGameInputLog.self, from: data) else {
-      return nil
-    }
-    return numberAndResult
   }
 
   private func clearData() {
