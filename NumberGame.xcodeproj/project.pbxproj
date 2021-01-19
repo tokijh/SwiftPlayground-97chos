@@ -24,6 +24,8 @@
 		FFE267F125B5D02E0099549A /* ScoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFE267F025B5D02E0099549A /* ScoreViewController.swift */; };
 		FFE267F525B5D1020099549A /* ScoreCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFE267F425B5D1020099549A /* ScoreCell.swift */; };
 		FFE267F925B5D5EC0099549A /* ScoreLogsDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = FFE267F725B5D5EC0099549A /* ScoreLogsDataModel.xcdatamodeld */; };
+		FFE2680425B679320099549A /* LogsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFE2680325B679320099549A /* LogsViewController.swift */; };
+		FFE2680925B67DC30099549A /* LogCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFE2680825B67DC30099549A /* LogCell.swift */; };
 		FFEF4EAD25B206C7006B4F03 /* LatelyResultCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFEF4EAC25B206C7006B4F03 /* LatelyResultCell.swift */; };
 /* End PBXBuildFile section */
 
@@ -49,6 +51,8 @@
 		FFE267F025B5D02E0099549A /* ScoreViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreViewController.swift; sourceTree = "<group>"; };
 		FFE267F425B5D1020099549A /* ScoreCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreCell.swift; sourceTree = "<group>"; };
 		FFE267F825B5D5EC0099549A /* ScoreLogsDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ScoreLogsDataModel.xcdatamodel; sourceTree = "<group>"; };
+		FFE2680325B679320099549A /* LogsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogsViewController.swift; sourceTree = "<group>"; };
+		FFE2680825B67DC30099549A /* LogCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogCell.swift; sourceTree = "<group>"; };
 		FFEF4EAC25B206C7006B4F03 /* LatelyResultCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LatelyResultCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -189,6 +193,7 @@
 				60DCB0002590E5CD009BD9B4 /* GameList */,
 				606416F225A6EBCC004ED168 /* InputNumber */,
 				603486F1259106750060EF0C /* UpAndDown */,
+				FFE267FE25B679020099549A /* Logs */,
 			);
 			path = Features;
 			sourceTree = "<group>";
@@ -224,6 +229,23 @@
 			isa = PBXGroup;
 			children = (
 				FFE267F425B5D1020099549A /* ScoreCell.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		FFE267FE25B679020099549A /* Logs */ = {
+			isa = PBXGroup;
+			children = (
+				FFE2680325B679320099549A /* LogsViewController.swift */,
+				FFE2680625B67DB20099549A /* View */,
+			);
+			path = Logs;
+			sourceTree = "<group>";
+		};
+		FFE2680625B67DB20099549A /* View */ = {
+			isa = PBXGroup;
+			children = (
+				FFE2680825B67DC30099549A /* LogCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -356,6 +378,8 @@
 				FFE267F525B5D1020099549A /* ScoreCell.swift in Sources */,
 				60D7B6952590FFE20078E884 /* GameCell.swift in Sources */,
 				FFE267F125B5D02E0099549A /* ScoreViewController.swift in Sources */,
+				FFE2680925B67DC30099549A /* LogCell.swift in Sources */,
+				FFE2680425B679320099549A /* LogsViewController.swift in Sources */,
 				60DCB0022590E5E9009BD9B4 /* GameListViewController.swift in Sources */,
 				606416F525A6EBE9004ED168 /* InputNumberViewController.swift in Sources */,
 				FFE267F925B5D5EC0099549A /* ScoreLogsDataModel.xcdatamodeld in Sources */,
