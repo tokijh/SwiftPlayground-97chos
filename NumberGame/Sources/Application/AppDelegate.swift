@@ -30,7 +30,7 @@ import CoreData
     )
   }
 
-
+  
   // MARK: CoreData
 
   lazy var persistentContainer: NSPersistentContainer = {
@@ -42,15 +42,5 @@ import CoreData
     }
     return container
   }()
-
-  func saveContext() {
-    let context = persistentContainer.viewContext
-    if context.hasChanges {
-      do {
-        try context.save()
-      } catch let error as NSError {
-        fatalError("Unresolved error \(error), \(error.userInfo)")
-      }
-    }
-  }
+  
 }

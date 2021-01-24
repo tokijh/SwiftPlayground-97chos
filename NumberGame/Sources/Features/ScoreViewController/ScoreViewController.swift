@@ -21,9 +21,14 @@ final class ScoreViewController: UIViewController {
 
 
   // MARK: Properties
-
+  private lazy var persistentContainer: NSPersistentContainer = {
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+    return appDelegate.persistentContainer
+  }()
+  private lazy var coreDataServie = CoreDataService(context: self.persistentContainer.viewContext)
+  private lazy var scoreMOFetchRequest: NSFetchRequest<ScoreMO> = ScoreMO.fetchRequest()
   private lazy var scoreList: [ScoreMO] = {
-    self.fetch()
+    self.coreDataServie.fetch(self.scoreMOFetchRequest)
   }()
 
 
@@ -48,22 +53,7 @@ final class ScoreViewController: UIViewController {
   }
 
 
-  // MARK: Functions
-
-  private func fetch() -> [ScoreMO] {
-
-    let appDelegate = UIApplication.shared.delegate as! AppDelegate
-    let context = appDelegate.persistentContainer.viewContext
-
-    let fetchRequest: NSFetchRequest<ScoreMO> = ScoreMO.fetchRequest()
-
-    do {
-      let result = try context.fetch(fetchRequest)
-      return result
-    } catch {
-      return []
-    }
-  }
+  
 
 
   // MARK: View Lifecycle
