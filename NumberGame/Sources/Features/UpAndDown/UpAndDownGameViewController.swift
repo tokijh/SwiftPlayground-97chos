@@ -320,14 +320,14 @@ final class UpAndDownGameViewController: UIViewController {
 
     let context = self.loadContext()
 
-    guard let ScoreObject = NSEntityDescription.insertNewObject(forEntityName: Entity.score, into: context) as? ScoreMO else {
+    guard let scoreObject = NSEntityDescription.insertNewObject(forEntityName: Entity.score, into: context) as? ScoreMO else {
       return
     }
 
-    ScoreObject.date = self.changeDateToString()
-    ScoreObject.inputCount = Int64(inputCount)
+    scoreObject.date = self.changeDateToString()
+    scoreObject.inputCount = Int64(inputCount)
 
-    self.saveLogsToCoreData(ScoreObject: ScoreObject)
+    self.saveLogsToCoreData(ScoreObject: scoreObject)
 
     do {
       try context.save()
@@ -336,7 +336,7 @@ final class UpAndDownGameViewController: UIViewController {
     }
   }
 
-  private func addLogToScoreObject(result: NumberGameInputLog, context: NSManagedObjectContext ,ScoreObject: ScoreMO) {
+  private func addLogToScoreObject(result: NumberGameInputLog, context: NSManagedObjectContext, ScoreObject: ScoreMO) {
 
     guard let logObject = NSEntityDescription.insertNewObject(forEntityName: Entity.log, into: context) as? LogMO else {
       return
