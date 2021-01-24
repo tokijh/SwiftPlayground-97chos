@@ -358,7 +358,6 @@ final class UpAndDownGameViewController: UIViewController {
     }
     self.button.contentEdgeInsets.bottom = windowSafeAreaInsets.bottom
   }
-
 }
 
 extension UpAndDownGameViewController: UITableViewDataSource {
