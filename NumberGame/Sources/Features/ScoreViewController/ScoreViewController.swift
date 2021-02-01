@@ -39,6 +39,7 @@ final class ScoreViewController: UIViewController {
     self.view.backgroundColor = .systemBackground
     self.configureTableView()
     self.layoutViews()
+    self.configureNavigationController()
   }
 
   private func configureTableView() {
@@ -81,6 +82,10 @@ final class ScoreViewController: UIViewController {
       context.rollback()
       return false
     }
+  }
+
+  private func configureNavigationController() {
+    self.navigationItem.rightBarButtonItem = self.editButtonItem
   }
 
 
@@ -136,6 +141,7 @@ extension ScoreViewController: UITableViewDelegate {
     let scoreObject = self.scoreList[indexPath.row]
 
     self.moveToLogView(score: scoreObject)
+
   }
 
   func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
