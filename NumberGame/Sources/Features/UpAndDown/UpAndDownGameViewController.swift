@@ -54,6 +54,12 @@ final class UpAndDownGameViewController: UIViewController {
       }
     }
   }
+  private var context: NSManagedObjectContext {
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+    let context = appDelegate.persistentContainer.viewContext
+
+    return context
+  }
 
 
   // MARK: UI
@@ -302,13 +308,6 @@ final class UpAndDownGameViewController: UIViewController {
     self.latelyResultLogsList = []
   }
 
-  private func loadContext() -> NSManagedObjectContext {
-    let appDelegate = UIApplication.shared.delegate as! AppDelegate
-    let context = appDelegate.persistentContainer.viewContext
-
-    return context
-  }
-
   private func changeDateToString() -> String {
     let dateFormatter = DateFormatter()
     dateFormatter.dateFormat = "yyyy년 MM월 dd일 HH:mm"
@@ -318,7 +317,7 @@ final class UpAndDownGameViewController: UIViewController {
 
   private func saveScoreToCoreData(inputCount: Int) {
 
-    let context = self.loadContext()
+    let context = self.context
 
     guard let scoreObject = NSEntityDescription.insertNewObject(forEntityName: Entity.score, into: context) as? ScoreMO else {
       return
@@ -349,7 +348,7 @@ final class UpAndDownGameViewController: UIViewController {
   }
 
   private func saveLogsToCoreData(ScoreObject: ScoreMO) {
-    let context = self.loadContext()
+    let context = self.context
 
     for row in self.latelyResultLogsList {
       self.addLogToScoreObject(result: row, context: context ,ScoreObject: ScoreObject)
