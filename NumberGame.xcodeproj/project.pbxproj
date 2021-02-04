@@ -18,7 +18,6 @@
 		60DCA7B7258B4E97009BD9B4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 60DCA7B6258B4E97009BD9B4 /* Assets.xcassets */; };
 		60DCA7BA258B4E97009BD9B4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 60DCA7B8258B4E97009BD9B4 /* LaunchScreen.storyboard */; };
 		60DCB0022590E5E9009BD9B4 /* GameListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60DCB0012590E5E9009BD9B4 /* GameListViewController.swift */; };
-		87A6F1EAF8FD7339273E9688 /* Pods_NumberGame.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B5630E1C8B110FDEBD954711 /* Pods_NumberGame.framework */; };
 		FF03A30025BDB07100F87B82 /* CoreDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF03A2FF25BDB07100F87B82 /* CoreDataService.swift */; };
 		FF83C26A25AA3E920020E7EC /* UIColor+Init.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF83C26925AA3E920020E7EC /* UIColor+Init.swift */; };
 		FF83C27225AB62DB0020E7EC /* NumberGameInputLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF83C27125AB62DB0020E7EC /* NumberGameInputLog.swift */; };
@@ -65,7 +64,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				87A6F1EAF8FD7339273E9688 /* Pods_NumberGame.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
