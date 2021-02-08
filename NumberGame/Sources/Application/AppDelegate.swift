@@ -32,6 +32,10 @@ import CoreData
     )
   }
 
+  func applicationWillTerminate(_ application: UIApplication) {
+    CoreDataService.shared.saveContext()
+  }
+
   
   // MARK: CoreData
 
