@@ -21,14 +21,11 @@ final class ScoreViewController: UIViewController {
 
 
   // MARK: Properties
-  private lazy var persistentContainer: NSPersistentContainer = {
-    let appDelegate = UIApplication.shared.delegate as! AppDelegate
-    return appDelegate.persistentContainer
-  }()
-  private lazy var coreDataServie = CoreDataService(context: self.persistentContainer.viewContext)
+
+  var coreDataService: CoreDataServiceProtocol!
   private lazy var scoreMOFetchRequest: NSFetchRequest<ScoreMO> = ScoreMO.fetchRequest()
   private lazy var scoreList: [ScoreMO] = {
-    self.coreDataServie.fetch(self.scoreMOFetchRequest)
+    self.coreDataService.fetch(self.scoreMOFetchRequest)
   }()
 
 
@@ -53,7 +50,16 @@ final class ScoreViewController: UIViewController {
   }
 
 
-  
+  // MARK: Initialize
+
+  init(coreDataService: CoreDataServiceProtocol) {
+    self.coreDataService = coreDataService
+    super.init(nibName: nil, bundle: nil)
+  }
+
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
 
 
   // MARK: View Lifecycle

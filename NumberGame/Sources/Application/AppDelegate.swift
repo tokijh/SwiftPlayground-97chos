@@ -16,6 +16,8 @@ import CoreData
     _ application: UIApplication,
     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
   ) -> Bool {
+
+    CoreDataService.shared.context = self.persistentContainer.viewContext
     return true
   }
 
@@ -42,5 +44,4 @@ import CoreData
     }
     return container
   }()
-  
 }

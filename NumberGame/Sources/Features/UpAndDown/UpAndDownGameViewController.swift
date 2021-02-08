@@ -54,11 +54,10 @@ final class UpAndDownGameViewController: UIViewController {
       }
     }
   }
+  private var coreDataService: CoreDataServiceProtocol!
   private var context: NSManagedObjectContext {
-    let appDelegate = UIApplication.shared.delegate as! AppDelegate
-    let context = appDelegate.persistentContainer.viewContext
-
-    return context
+    let context = self.coreDataService.context
+    return context ?? NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
   }
 
 
@@ -160,6 +159,17 @@ final class UpAndDownGameViewController: UIViewController {
   }
 
 
+  // MARK: Initialize
+
+  init(coreDataService: CoreDataServiceProtocol) {
+    self.coreDataService = coreDataService
+    super.init(nibName: nil, bundle: nil)
+  }
+
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
+
   // MARK: View Lifecycle
 
   override func viewDidLoad() {
@@ -193,7 +203,7 @@ final class UpAndDownGameViewController: UIViewController {
   }
 
   @objc private func didTapScoreButton() {
-    let scoreViewController = ScoreViewController()
+    let scoreViewController = ScoreViewController(coreDataService: CoreDataService.shared)
     self.navigationController?.pushViewController(scoreViewController, animated: true)
   }
 

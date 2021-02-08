@@ -62,7 +62,7 @@ final class GameListViewController: UIViewController {
 
 extension GameListViewController {
   private func navigateToUpAndDownGame() {
-    let viewController = UpAndDownGameViewController()
+    let viewController = UpAndDownGameViewController(coreDataService: CoreDataService.shared)
     self.navigationController?.pushViewController(viewController, animated: true)
   }
 }

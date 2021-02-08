@@ -8,35 +8,45 @@
 import Foundation
 import CoreData
 
-class CoreDataService {
+protocol CoreDataServiceProtocol: class {
+  func fetch<T>(_:NSFetchRequest<T>) -> [T]
+  var context: NSManagedObjectContext? { get }
+}
 
-  // MARK: Initailize
+class CoreDataService: CoreDataServiceProtocol {
 
-  private let context: NSManagedObjectContext!
+  static let shared = CoreDataService()
+  var context: NSManagedObjectContext? = nil
 
-  init(context: NSManagedObjectContext) {
-    self.context = context
+  private init() {
+    
   }
 
 
   // MARK: CoreData
 
   func saveContext() {
-    if self.context.hasChanges {
+    guard let context = self.context else {
+      return
+    }
+    if context.hasChanges {
       do {
-        try self.context.save()
+        try context.save()
       } catch let error as NSError {
         fatalError("Unresolved error \(error), \(error.userInfo)")
       }
     }
   }
 
-
+  
   // MARK: Functions
 
   func fetch<ScoreMO>(_ fetchRequest: NSFetchRequest<ScoreMO>) -> [ScoreMO] {
+    guard let context = self.context else {
+      return []
+    }
     do {
-      let result = try self.context.fetch(fetchRequest)
+      let result = try context.fetch(fetchRequest)
       return result
     } catch {
       return []
