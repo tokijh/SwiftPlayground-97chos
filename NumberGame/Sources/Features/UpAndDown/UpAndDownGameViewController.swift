@@ -54,7 +54,7 @@ final class UpAndDownGameViewController: UIViewController {
       }
     }
   }
-  private var coreDataService: CoreDataServiceProtocol!
+  private let coreDataService: CoreDataServiceProtocol
   private var context: NSManagedObjectContext {
     let context = self.coreDataService.context
     return context ?? NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
@@ -308,9 +308,7 @@ final class UpAndDownGameViewController: UIViewController {
 
     let encodedData = try? encorder.encode(rawData)
 
-    guard let jsonData = encodedData, let jsonString = String(data: jsonData, encoding: .utf8) else {
-      return ""
-    }
+    guard let jsonData = encodedData, let jsonString = String(data: jsonData, encoding: .utf8) else { return "" }
     return jsonString
   }
 
@@ -329,9 +327,7 @@ final class UpAndDownGameViewController: UIViewController {
 
     let context = self.context
 
-    guard let scoreObject = NSEntityDescription.insertNewObject(forEntityName: Entity.score, into: context) as? ScoreMO else {
-      return
-    }
+    guard let scoreObject = NSEntityDescription.insertNewObject(forEntityName: Entity.score, into: context) as? ScoreMO else { return }
 
     scoreObject.date = self.changeDateToString()
     scoreObject.inputCount = Int64(inputCount)
@@ -347,9 +343,7 @@ final class UpAndDownGameViewController: UIViewController {
 
   private func addLogToScoreObject(result: NumberGameInputLog, context: NSManagedObjectContext, ScoreObject: ScoreMO) {
 
-    guard let logObject = NSEntityDescription.insertNewObject(forEntityName: Entity.log, into: context) as? LogMO else {
-      return
-    }
+    guard let logObject = NSEntityDescription.insertNewObject(forEntityName: Entity.log, into: context) as? LogMO else { return }
 
     logObject.result = result.result
     logObject.inputtedNumber = Int64(result.inputNumber)
