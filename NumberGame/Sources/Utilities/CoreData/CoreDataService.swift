@@ -25,17 +25,16 @@ class CoreDataService: CoreDataServiceProtocol {
 
   // MARK: CoreData
 
-  func saveContext() {
-    guard let context = self.context else {
-      return
-    }
+  func saveContext() -> Bool {
+    guard let context = self.context else { return false }
     if context.hasChanges {
       do {
         try context.save()
-      } catch let error as NSError {
-        fatalError("Unresolved error \(error), \(error.userInfo)")
+      } catch {
+        return false
       }
     }
+    return true
   }
 
   
