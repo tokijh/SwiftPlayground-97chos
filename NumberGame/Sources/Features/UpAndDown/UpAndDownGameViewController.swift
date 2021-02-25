@@ -203,7 +203,7 @@ final class UpAndDownGameViewController: UIViewController {
   }
 
   @objc private func didTapScoreButton() {
-    let scoreViewController = ScoreViewController(coreDataService: CoreDataService.shared)
+    let scoreViewController = ScoreViewController(coreDataService: self.coreDataService)
     self.navigationController?.pushViewController(scoreViewController, animated: true)
   }
 
