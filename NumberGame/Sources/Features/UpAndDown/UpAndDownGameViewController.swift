@@ -6,10 +6,16 @@
 //
 
 import UIKit
+import CoreData
 
 final class UpAndDownGameViewController: UIViewController {
 
   // MARK: Module
+
+  private enum Entity {
+    static let score = "Score"
+    static let log = "Log"
+  }
 
   private enum GameState {
     case playing
@@ -47,6 +53,11 @@ final class UpAndDownGameViewController: UIViewController {
         self.tableViewTitle.isHidden = false
       }
     }
+  }
+  private var coreDataService: CoreDataServiceProtocol!
+  private var context: NSManagedObjectContext {
+    let context = self.coreDataService.context
+    return context ?? NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
   }
 
 
@@ -120,6 +131,10 @@ final class UpAndDownGameViewController: UIViewController {
     tableView.allowsSelection = false
     return tableView
   }()
+  private lazy var scoreButton: UIBarButtonItem = {
+    let barButton = UIBarButtonItem(title: "Score", style: .plain, target: self, action: #selector(self.didTapScoreButton))
+    return barButton
+  }()
 
 
   // MARK: Configuring
@@ -128,6 +143,7 @@ final class UpAndDownGameViewController: UIViewController {
     self.title = "Up & Down"
     self.configureButton()
     self.configureTableViewCell()
+    self.configureNavigationButton()
   }
 
   private func configureButton() {
@@ -138,6 +154,21 @@ final class UpAndDownGameViewController: UIViewController {
     self.latelyResultLogsTableView.register(LatelyResultCell.self, forCellReuseIdentifier: "latelyNumberCell")
   }
 
+  private func configureNavigationButton() {
+    self.navigationItem.rightBarButtonItem = self.scoreButton
+  }
+
+
+  // MARK: Initialize
+
+  init(coreDataService: CoreDataServiceProtocol) {
+    self.coreDataService = coreDataService
+    super.init(nibName: nil, bundle: nil)
+  }
+
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
 
   // MARK: View Lifecycle
 
@@ -171,6 +202,11 @@ final class UpAndDownGameViewController: UIViewController {
     }
   }
 
+  @objc private func didTapScoreButton() {
+    let scoreViewController = ScoreViewController(coreDataService: CoreDataService.shared)
+    self.navigationController?.pushViewController(scoreViewController, animated: true)
+  }
+
 
   // MARK: Game
 
@@ -199,18 +235,18 @@ final class UpAndDownGameViewController: UIViewController {
     var resultText: String!
 
     if self.answer == number {
-      self.setEndGame()
       resultText = "🙆‍♀️🙆‍♂️"
+      self.makeResultData(number: lastInputNumber ?? 0, result: resultText)
+      self.setEndGame()
     } else if number < self.answer {
       resultText = "Up 👍"
       self.inputNumberStateLabel.text = resultText
+      self.makeResultData(number: lastInputNumber ?? 0, result: resultText)
     } else if number > self.answer {
       resultText = "Down 👎"
       self.inputNumberStateLabel.text = resultText
+      self.makeResultData(number: lastInputNumber ?? 0, result: resultText)
     }
-
-    let resultData: NumberGameInputLog = NumberGameInputLog(inputNumber: number, result: resultText)
-    appendLatelyInputNumberList(resultData)
   }
 
   private func setEndGame() {
@@ -223,6 +259,8 @@ final class UpAndDownGameViewController: UIViewController {
     self.inputNumberLabel.text = "정답입니다."
     self.inputNumberStateLabel.text = "💯"
     self.inputCountLabel.text = "\(self.inputCount)번 만에 성공!"
+
+    self.saveScoreToCoreData(inputCount: self.inputCount)
 
     self.button.setTitle("다시 시작", for: .normal)
   }
@@ -250,6 +288,11 @@ final class UpAndDownGameViewController: UIViewController {
                    })
   }
 
+  private func makeResultData(number: Int, result: String) {
+    let resultData: NumberGameInputLog = NumberGameInputLog(inputNumber: number, result: result)
+    appendLatelyInputNumberList(resultData)
+  }
+
   private func appendLatelyInputNumberList(_ resultData: NumberGameInputLog) {
     self.latelyResultLogsList.append(resultData)
     self.latelyResultLogsTableView.reloadData()
@@ -258,11 +301,6 @@ final class UpAndDownGameViewController: UIViewController {
   private func saveToUserDefaults(_ list: [NumberGameInputLog]) {
     let encodedList = list.map { self.encodeToJson(rawData: $0) }
     UserDefaults.standard.setValue(encodedList, forKey: UserDefaultsKey.resultLogs)
-  }
-
-  private func loadFromUserDefaults() -> [NumberGameInputLog]  {
-    let list = UserDefaults.standard.value(forKey: UserDefaultsKey.resultLogs) as? [String] ?? []
-    return list.compactMap{ self.decodeFromJson(jsonString: $0) }
   }
 
   private func encodeToJson(rawData: NumberGameInputLog) -> String {
@@ -276,19 +314,55 @@ final class UpAndDownGameViewController: UIViewController {
     return jsonString
   }
 
-  private func decodeFromJson(jsonString: String) -> NumberGameInputLog? {
-    let decorder = JSONDecoder()
-
-    let optData = jsonString.data(using: .utf8)
-
-    guard let data = optData, let numberAndResult = try? decorder.decode(NumberGameInputLog.self, from: data) else {
-      return nil
-    }
-    return numberAndResult
-  }
-
   private func clearData() {
     self.latelyResultLogsList = []
+  }
+
+  private func changeDateToString() -> String {
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateFormat = "yyyy년 MM월 dd일 HH:mm"
+
+    return dateFormatter.string(from: Date())
+  }
+
+  private func saveScoreToCoreData(inputCount: Int) {
+
+    let context = self.context
+
+    guard let scoreObject = NSEntityDescription.insertNewObject(forEntityName: Entity.score, into: context) as? ScoreMO else {
+      return
+    }
+
+    scoreObject.date = self.changeDateToString()
+    scoreObject.inputCount = Int64(inputCount)
+
+    self.saveLogsToCoreData(ScoreObject: scoreObject)
+
+    do {
+      try context.save()
+    } catch {
+      context.rollback()
+    }
+  }
+
+  private func addLogToScoreObject(result: NumberGameInputLog, context: NSManagedObjectContext, ScoreObject: ScoreMO) {
+
+    guard let logObject = NSEntityDescription.insertNewObject(forEntityName: Entity.log, into: context) as? LogMO else {
+      return
+    }
+
+    logObject.result = result.result
+    logObject.inputtedNumber = Int64(result.inputNumber)
+
+    ScoreObject.addToLogs(logObject)
+  }
+
+  private func saveLogsToCoreData(ScoreObject: ScoreMO) {
+    let context = self.context
+
+    for row in self.latelyResultLogsList {
+      self.addLogToScoreObject(result: row, context: context ,ScoreObject: ScoreObject)
+    }
   }
 
 

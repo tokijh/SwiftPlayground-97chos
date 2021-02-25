@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import CoreData
 
 @main class AppDelegate: UIResponder, UIApplicationDelegate {
 
@@ -15,6 +16,8 @@ import UIKit
     _ application: UIApplication,
     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
   ) -> Bool {
+
+    CoreDataService.shared.context = self.persistentContainer.viewContext
     return true
   }
 
@@ -28,4 +31,21 @@ import UIKit
       sessionRole: connectingSceneSession.role
     )
   }
+
+  func applicationWillTerminate(_ application: UIApplication) {
+    CoreDataService.shared.saveContext()
+  }
+
+  
+  // MARK: CoreData
+
+  lazy var persistentContainer: NSPersistentContainer = {
+    let container = NSPersistentContainer(name: "ScoreLogsDataModel")
+    container.loadPersistentStores {
+      if let error = $1 as NSError? {
+        fatalError("Unresolved srror \(error), \(error.userInfo)")
+      }
+    }
+    return container
+  }()
 }
