@@ -98,14 +98,25 @@ extension ScoreViewController: UITableViewDataSource {
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
     let row = self.scoreList[indexPath.row]
-
     guard let cell = tableView.dequeueReusableCell(withIdentifier: ReuseIdentifier.scoreCell) as? ScoreCell else {
       return UITableViewCell()
     }
-
     cell.set(title: "\(row.date ?? "")의 게임", subTitle: "\(row.inputCount)회 시도")
 
     return cell
+  }
+
+  func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+    return .delete
+  }
+
+  func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+    let data = self.scoreList[indexPath.row]
+
+    if self.coreDataService.delete(data.objectID) {
+      self.scoreList.remove(at: indexPath.row)
+      tableView.deleteRows(at: [indexPath], with: .fade)
+    }
   }
 }
 
