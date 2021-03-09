@@ -195,6 +195,7 @@ final class UpAndDownGameViewController: UIViewController {
     case .end:
       if self.isEarlySucceeded {
         self.earlySuccessViewHide(view: earlySuccessView)
+        self.isEarlySucceeded = false
       } else {
         self.resetGame()
         self.clearData()
