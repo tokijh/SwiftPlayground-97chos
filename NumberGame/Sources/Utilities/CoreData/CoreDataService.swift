@@ -10,6 +10,7 @@ import CoreData
 
 protocol CoreDataServiceProtocol: class {
   func fetch<T>(_:NSFetchRequest<T>) -> [T]
+  func delete(_ objectID: NSManagedObjectID) -> Bool
   var context: NSManagedObjectContext? { get }
 }
 
@@ -19,23 +20,21 @@ class CoreDataService: CoreDataServiceProtocol {
   var context: NSManagedObjectContext? = nil
 
   private init() {
-    
   }
 
 
   // MARK: CoreData
 
-  func saveContext() {
-    guard let context = self.context else {
-      return
-    }
+  func saveContext() -> Bool {
+    guard let context = self.context else { return false }
     if context.hasChanges {
       do {
         try context.save()
-      } catch let error as NSError {
-        fatalError("Unresolved error \(error), \(error.userInfo)")
+      } catch {
+        return false
       }
     }
+    return true
   }
 
   
@@ -50,6 +49,21 @@ class CoreDataService: CoreDataServiceProtocol {
       return result
     } catch {
       return []
+    }
+  }
+
+  func delete(_ objectID: NSManagedObjectID) -> Bool {
+    guard let context = self.context else {
+      return false
+    }
+    let object = context.object(with: objectID)
+    context.delete(object)
+
+    do {
+      try context.save()
+      return true
+    } catch {
+      return false
     }
   }
 }

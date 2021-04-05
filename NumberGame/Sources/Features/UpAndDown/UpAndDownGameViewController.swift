@@ -54,7 +54,7 @@ final class UpAndDownGameViewController: UIViewController {
       }
     }
   }
-  private var coreDataService: CoreDataServiceProtocol!
+  private let coreDataService: CoreDataServiceProtocol
   private var context: NSManagedObjectContext {
     let context = self.coreDataService.context
     return context ?? NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
@@ -195,6 +195,7 @@ final class UpAndDownGameViewController: UIViewController {
     case .end:
       if self.isEarlySucceeded {
         self.earlySuccessViewHide(view: earlySuccessView)
+        self.isEarlySucceeded = false
       } else {
         self.resetGame()
         self.clearData()
@@ -203,7 +204,7 @@ final class UpAndDownGameViewController: UIViewController {
   }
 
   @objc private func didTapScoreButton() {
-    let scoreViewController = ScoreViewController(coreDataService: CoreDataService.shared)
+    let scoreViewController = ScoreViewController(coreDataService: self.coreDataService)
     self.navigationController?.pushViewController(scoreViewController, animated: true)
   }
 
@@ -300,18 +301,17 @@ final class UpAndDownGameViewController: UIViewController {
 
   private func saveToUserDefaults(_ list: [NumberGameInputLog]) {
     let encodedList = list.map { self.encodeToJson(rawData: $0) }
-    UserDefaults.standard.setValue(encodedList, forKey: UserDefaultsKey.resultLogs)
+    let compactedList = encodedList.compactMap{ $0 }
+    UserDefaults.standard.setValue(compactedList, forKey: UserDefaultsKey.resultLogs)
   }
 
-  private func encodeToJson(rawData: NumberGameInputLog) -> String {
-    let encorder = JSONEncoder()
-
-    let encodedData = try? encorder.encode(rawData)
-
-    guard let jsonData = encodedData, let jsonString = String(data: jsonData, encoding: .utf8) else {
-      return ""
+  private func encodeToJson(rawData: NumberGameInputLog) -> String? {
+    let encoder = JSONEncoder()
+    let encodedData = try? encoder.encode(rawData)
+    guard let JSONData = encodedData, let JSONString = String(data: JSONData, encoding: .utf8) else {
+      return nil
     }
-    return jsonString
+    return JSONString
   }
 
   private func clearData() {
@@ -326,16 +326,10 @@ final class UpAndDownGameViewController: UIViewController {
   }
 
   private func saveScoreToCoreData(inputCount: Int) {
-
     let context = self.context
-
-    guard let scoreObject = NSEntityDescription.insertNewObject(forEntityName: Entity.score, into: context) as? ScoreMO else {
-      return
-    }
-
+    guard let scoreObject = NSEntityDescription.insertNewObject(forEntityName: Entity.score, into: context) as? ScoreMO else { return }
     scoreObject.date = self.changeDateToString()
     scoreObject.inputCount = Int64(inputCount)
-
     self.saveLogsToCoreData(ScoreObject: scoreObject)
 
     do {
@@ -347,19 +341,14 @@ final class UpAndDownGameViewController: UIViewController {
 
   private func addLogToScoreObject(result: NumberGameInputLog, context: NSManagedObjectContext, ScoreObject: ScoreMO) {
 
-    guard let logObject = NSEntityDescription.insertNewObject(forEntityName: Entity.log, into: context) as? LogMO else {
-      return
-    }
-
+    guard let logObject = NSEntityDescription.insertNewObject(forEntityName: Entity.log, into: context) as? LogMO else { return }
     logObject.result = result.result
     logObject.inputtedNumber = Int64(result.inputNumber)
-
     ScoreObject.addToLogs(logObject)
   }
 
   private func saveLogsToCoreData(ScoreObject: ScoreMO) {
     let context = self.context
-
     for row in self.latelyResultLogsList {
       self.addLogToScoreObject(result: row, context: context ,ScoreObject: ScoreObject)
     }

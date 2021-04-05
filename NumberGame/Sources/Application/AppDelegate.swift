@@ -33,7 +33,7 @@ import CoreData
   }
 
   func applicationWillTerminate(_ application: UIApplication) {
-    CoreDataService.shared.saveContext()
+    _ = CoreDataService.shared.saveContext()
   }
 
   
