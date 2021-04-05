@@ -301,15 +301,17 @@ final class UpAndDownGameViewController: UIViewController {
 
   private func saveToUserDefaults(_ list: [NumberGameInputLog]) {
     let encodedList = list.map { self.encodeToJson(rawData: $0) }
-    UserDefaults.standard.setValue(encodedList, forKey: UserDefaultsKey.resultLogs)
+    let compactedList = encodedList.compactMap{ $0 }
+    UserDefaults.standard.setValue(compactedList, forKey: UserDefaultsKey.resultLogs)
   }
 
-  private func encodeToJson(rawData: NumberGameInputLog) -> String {
+  private func encodeToJson(rawData: NumberGameInputLog) -> String? {
     let encoder = JSONEncoder()
     let encodedData = try? encoder.encode(rawData)
-    guard let jsonData = encodedData, let jsonString = String(data: jsonData, encoding: .utf8) else { return "" }
-
-    return jsonString
+    guard let JSONData = encodedData, let JSONString = String(data: JSONData, encoding: .utf8) else {
+      return nil
+    }
+    return JSONString
   }
 
   private func clearData() {
