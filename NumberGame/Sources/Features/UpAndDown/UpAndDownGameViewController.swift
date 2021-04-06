@@ -358,13 +358,9 @@ final class UpAndDownGameViewController: UIViewController {
 
   private func savePlayerLog(inputCount: Int) {
     self.dismiss(animated: true) {
-      let alert = UIAlertController(title: "플레이어의 입력을 입력하세요.", message: nil, preferredStyle: .alert)
-      alert.addTextField(configurationHandler: nil)
-      alert.addAction(UIAlertAction(title: "확인", style: .default) { _ in
+      self.inputTextAlert(title: "플레이어의 이름을 입력하세요.") { alert in
         self.saveScoreToCoreData(inputCount: inputCount, name: alert.textFields?[0].text ?? "")
-      })
-
-      self.present(alert, animated: true)
+      }
     }
   }
 
