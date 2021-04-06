@@ -106,17 +106,28 @@ extension ScoreViewController: UITableViewDataSource {
     return cell
   }
 
-  func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
-    return .delete
-  }
+  func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+    let score = self.scoreList[indexPath.row]
 
-  func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-    let data = self.scoreList[indexPath.row]
-
-    if self.coreDataService.delete(data.objectID) {
-      self.scoreList.remove(at: indexPath.row)
-      tableView.deleteRows(at: [indexPath], with: .fade)
+    let editAction = UIContextualAction(style: .normal, title: "Edit") { (action, view, success) in
+      self.inputTextAlert(title: "변경할 이름을 입력하세요.", message: nil, isCancel: true) { [weak self] alert in
+        guard let self = self else { return }
+        if self.coreDataService.edit(score.objectID, name: alert.textFields?[0].text ?? "") {
+          tableView.reloadRows(at: [indexPath], with: .automatic)
+        }
+      }
+      success(true)
     }
+
+    let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { [weak self] (action, view, success) in
+      guard let self = self else { return }
+      if self.coreDataService.delete(score.objectID) {
+        self.scoreList.remove(at: indexPath.row)
+        tableView.deleteRows(at: [indexPath], with: .automatic)
+      }
+    }
+
+    return UISwipeActionsConfiguration(actions: [deleteAction, editAction])
   }
 }
 
