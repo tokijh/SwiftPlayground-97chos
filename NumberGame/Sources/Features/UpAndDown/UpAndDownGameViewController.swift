@@ -214,6 +214,7 @@ final class UpAndDownGameViewController: UIViewController {
   private func resetGame() {
     self.gameState = .playing
     self.answer = Int.random(in: 0...100)
+    print(answer)
     self.lastInputNumber = nil
     self.inputCount = 0
 
@@ -261,7 +262,7 @@ final class UpAndDownGameViewController: UIViewController {
     self.inputNumberStateLabel.text = "💯"
     self.inputCountLabel.text = "\(self.inputCount)번 만에 성공!"
 
-    self.saveScoreToCoreData(inputCount: self.inputCount)
+    self.savePlayerLog(inputCount: self.inputCount)
 
     self.button.setTitle("다시 시작", for: .normal)
   }
@@ -325,11 +326,12 @@ final class UpAndDownGameViewController: UIViewController {
     return dateFormatter.string(from: Date())
   }
 
-  private func saveScoreToCoreData(inputCount: Int) {
+  private func saveScoreToCoreData(inputCount: Int, name: String) {
     let context = self.context
     guard let scoreObject = NSEntityDescription.insertNewObject(forEntityName: Entity.score, into: context) as? ScoreMO else { return }
     scoreObject.date = self.changeDateToString()
     scoreObject.inputCount = Int64(inputCount)
+    scoreObject.playerName = name
     self.saveLogsToCoreData(ScoreObject: scoreObject)
 
     do {
@@ -351,6 +353,18 @@ final class UpAndDownGameViewController: UIViewController {
     let context = self.context
     for row in self.latelyResultLogsList {
       self.addLogToScoreObject(result: row, context: context ,ScoreObject: ScoreObject)
+    }
+  }
+
+  private func savePlayerLog(inputCount: Int) {
+    self.dismiss(animated: true) {
+      let alert = UIAlertController(title: "플레이어의 입력을 입력하세요.", message: nil, preferredStyle: .alert)
+      alert.addTextField(configurationHandler: nil)
+      alert.addAction(UIAlertAction(title: "확인", style: .default) { _ in
+        self.saveScoreToCoreData(inputCount: inputCount, name: alert.textFields?[0].text ?? "")
+      })
+
+      self.present(alert, animated: true)
     }
   }
 
