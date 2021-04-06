@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		603486E82591009C0060EF0C /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 603486E72591009C0060EF0C /* Extensions.swift */; };
 		603486F3259106840060EF0C /* UpAndDownGameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 603486F2259106840060EF0C /* UpAndDownGameViewController.swift */; };
 		606416F525A6EBE9004ED168 /* InputNumberViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 606416F425A6EBE9004ED168 /* InputNumberViewController.swift */; };
 		606416F925A6ED9C004ED168 /* Array+Chunked.swift in Sources */ = {isa = PBXBuildFile; fileRef = 606416F825A6ED9C004ED168 /* Array+Chunked.swift */; };
@@ -21,6 +20,7 @@
 		FF03A30025BDB07100F87B82 /* CoreDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF03A2FF25BDB07100F87B82 /* CoreDataService.swift */; };
 		FF83C26A25AA3E920020E7EC /* UIColor+Init.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF83C26925AA3E920020E7EC /* UIColor+Init.swift */; };
 		FF83C27225AB62DB0020E7EC /* NumberGameInputLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF83C27125AB62DB0020E7EC /* NumberGameInputLog.swift */; };
+		FFA9354D261CB3D600CE1EAD /* UIViewController+Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFA9354C261CB3D600CE1EAD /* UIViewController+Alert.swift */; };
 		FFE267F125B5D02E0099549A /* ScoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFE267F025B5D02E0099549A /* ScoreViewController.swift */; };
 		FFE267F525B5D1020099549A /* ScoreCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFE267F425B5D1020099549A /* ScoreCell.swift */; };
 		FFE267F925B5D5EC0099549A /* ScoreLogsDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = FFE267F725B5D5EC0099549A /* ScoreLogsDataModel.xcdatamodeld */; };
@@ -32,7 +32,6 @@
 
 /* Begin PBXFileReference section */
 		0BE6DD22B5D21258449E3469 /* Pods-NumberGame.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NumberGame.release.xcconfig"; path = "Target Support Files/Pods-NumberGame/Pods-NumberGame.release.xcconfig"; sourceTree = "<group>"; };
-		603486E72591009C0060EF0C /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		603486F2259106840060EF0C /* UpAndDownGameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpAndDownGameViewController.swift; sourceTree = "<group>"; };
 		606416F425A6EBE9004ED168 /* InputNumberViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputNumberViewController.swift; sourceTree = "<group>"; };
 		606416F825A6ED9C004ED168 /* Array+Chunked.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Chunked.swift"; sourceTree = "<group>"; };
@@ -50,6 +49,7 @@
 		FF03A2FF25BDB07100F87B82 /* CoreDataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataService.swift; sourceTree = "<group>"; };
 		FF83C26925AA3E920020E7EC /* UIColor+Init.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Init.swift"; sourceTree = "<group>"; };
 		FF83C27125AB62DB0020E7EC /* NumberGameInputLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberGameInputLog.swift; sourceTree = "<group>"; };
+		FFA9354C261CB3D600CE1EAD /* UIViewController+Alert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Alert.swift"; sourceTree = "<group>"; };
 		FFE267F025B5D02E0099549A /* ScoreViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreViewController.swift; sourceTree = "<group>"; };
 		FFE267F425B5D1020099549A /* ScoreCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreCell.swift; sourceTree = "<group>"; };
 		FFE267F825B5D5EC0099549A /* ScoreLogsDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ScoreLogsDataModel.xcdatamodel; sourceTree = "<group>"; };
@@ -84,7 +84,7 @@
 				FF03A2FE25BDB04E00F87B82 /* CoreData */,
 				FFE2680B25B687AC0099549A /* String */,
 				606416F725A6ED90004ED168 /* Array */,
-				603486E72591009C0060EF0C /* Extensions.swift */,
+				FFA9354A261CB3BB00CE1EAD /* UIViewController */,
 				609257A025A8F15000D407B0 /* UIImage */,
 			);
 			path = Utilities;
@@ -226,6 +226,14 @@
 				FF03A2FF25BDB07100F87B82 /* CoreDataService.swift */,
 			);
 			path = CoreData;
+			sourceTree = "<group>";
+		};
+		FFA9354A261CB3BB00CE1EAD /* UIViewController */ = {
+			isa = PBXGroup;
+			children = (
+				FFA9354C261CB3D600CE1EAD /* UIViewController+Alert.swift */,
+			);
+			path = UIViewController;
 			sourceTree = "<group>";
 		};
 		FFE267EF25B5CFF90099549A /* ScoreViewController */ = {
@@ -393,7 +401,6 @@
 			files = (
 				60DCA7AE258B4E94009BD9B4 /* AppDelegate.swift in Sources */,
 				606416F925A6ED9C004ED168 /* Array+Chunked.swift in Sources */,
-				603486E82591009C0060EF0C /* Extensions.swift in Sources */,
 				FF83C26A25AA3E920020E7EC /* UIColor+Init.swift in Sources */,
 				FFE267F525B5D1020099549A /* ScoreCell.swift in Sources */,
 				60D7B6952590FFE20078E884 /* GameCell.swift in Sources */,
@@ -408,6 +415,7 @@
 				60DCA7B0258B4E94009BD9B4 /* SceneDelegate.swift in Sources */,
 				609257A225A8F16600D407B0 /* UIImageFromUIColor.swift in Sources */,
 				603486F3259106840060EF0C /* UpAndDownGameViewController.swift in Sources */,
+				FFA9354D261CB3D600CE1EAD /* UIViewController+Alert.swift in Sources */,
 				FF83C27225AB62DB0020E7EC /* NumberGameInputLog.swift in Sources */,
 				FFEF4EAD25B206C7006B4F03 /* LatelyResultCell.swift in Sources */,
 			);

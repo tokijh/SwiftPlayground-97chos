@@ -11,6 +11,7 @@ import CoreData
 protocol CoreDataServiceProtocol: class {
   func fetch<T>(_:NSFetchRequest<T>) -> [T]
   func delete(_ objectID: NSManagedObjectID) -> Bool
+  func edit(_ objectID: NSManagedObjectID, name: String) -> Bool
   var context: NSManagedObjectContext? { get }
 }
 
@@ -58,6 +59,21 @@ class CoreDataService: CoreDataServiceProtocol {
     }
     let object = context.object(with: objectID)
     context.delete(object)
+
+    do {
+      try context.save()
+      return true
+    } catch {
+      return false
+    }
+  }
+
+  func edit(_ objectID: NSManagedObjectID, name: String) -> Bool {
+    guard let context = self.context else {
+      return false
+    }
+    let object = context.object(with: objectID) as? ScoreMO
+    object?.playerName = name
 
     do {
       try context.save()

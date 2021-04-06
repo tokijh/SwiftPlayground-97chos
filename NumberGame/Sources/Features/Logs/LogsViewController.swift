@@ -35,7 +35,7 @@ class LogsViewController: UIViewController {
   // MARK: Configuring
 
   private func configureViews() {
-    self.title = self.score.date?.dateTransformToTitle()
+    self.title = self.score.playerName
     self.view.backgroundColor = .systemBackground
     self.configureTableView()
     self.layoutViews()
