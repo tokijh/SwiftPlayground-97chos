@@ -101,8 +101,7 @@ extension ScoreViewController: UITableViewDataSource {
     guard let cell = tableView.dequeueReusableCell(withIdentifier: ReuseIdentifier.scoreCell) as? ScoreCell else {
       return UITableViewCell()
     }
-    cell.set(title: "\(row.date ?? "")의 게임", subTitle: "\(row.inputCount)회 시도")
-
+    cell.set(date: row.date ?? "", count: "\(row.inputCount)회 시도", name: "Player : \(row.playerName ?? "")")
     return cell
   }
 
@@ -128,6 +127,10 @@ extension ScoreViewController: UITableViewDataSource {
     }
 
     return UISwipeActionsConfiguration(actions: [deleteAction, editAction])
+  }
+
+  func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+    return 56
   }
 }
 
